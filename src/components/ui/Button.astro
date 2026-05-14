@@ -1,0 +1,24 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary";
+  target?: string;
+  rel?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  target,
+  rel,
+} = Astro.props;
+
+const className =
+  variant === "primary"
+    ? "rounded-full bg-[var(--text-main)] px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-[var(--accent-muted)]"
+    : "rounded-full border border-[rgba(216,202,186,0.85)] bg-white/70 px-5 py-3 text-sm font-medium text-[var(--text-main)] transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.35)]";
+---
+
+<a class={className} href={href} target={target} rel={rel}>
+  <slot />
+</a>

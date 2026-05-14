@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from "astro:content";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import { getCollectionPath } from "../../i18n/utils";
+import {
+  getEntryPath,
+  getTranslatedEntry,
+} from "../../lib/content/translations";
+
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "projects",
+    ({ data }) => !data.draft && data.lang === "zh-CN",
+  );
+
+  return entries.map((entry) => ({
+    params: { slug: entry.data.routeSlug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const translation = await getTranslatedEntry("projects", entry, "en");
+---
+
+<ProjectLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  lang="zh-CN"
+  currentPath={Astro.url.pathname}
+  translationHref={translation ? getEntryPath("projects", "en", translation) : getCollectionPath("projects", "en")}
+  publishedAt={entry.data.publishedAt}
+  updatedAt={entry.data.updatedAt}
+  status={entry.data.status}
+  stack={entry.data.stack}
+  cover={entry.data.cover}
+  coverAlt={entry.data.coverAlt}
+  repoUrl={entry.data.repoUrl}
+  demoUrl={entry.data.demoUrl}
+  caseStudyUrl={entry.data.caseStudyUrl}
+  backHref={getCollectionPath("projects", "zh-CN")}
+>
+  <Content />
+</ProjectLayout>

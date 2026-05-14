@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Weekly reset cover">
+  <rect width="1200" height="675" fill="#f8f3ea" />
+  <rect x="84" y="84" width="1032" height="507" rx="28" fill="#fffdf8" stroke="#e7ded1" stroke-width="2" />
+  <text x="126" y="154" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600" fill="#2d2a26">Weekly Reset</text>
+  <text x="126" y="194" font-family="Inter, Arial, sans-serif" font-size="20" fill="#746f66">Reordering input, projects, and attention.</text>
+  <g fill="#fbf7ef" stroke="#d8caba" stroke-width="2">
+    <rect x="128" y="250" width="260" height="262" rx="22" />
+    <rect x="468" y="250" width="260" height="262" rx="22" />
+    <rect x="808" y="250" width="260" height="262" rx="22" />
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#2d2a26">
+    <text x="166" y="320" font-size="24" font-weight="600">Read</text>
+    <text x="506" y="320" font-size="24" font-weight="600">Build</text>
+    <text x="846" y="320" font-size="24" font-weight="600">Refocus</text>
+  </g>
+</svg>

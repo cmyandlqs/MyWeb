@@ -1,0 +1,20 @@
+---
+import Container from "./Container.astro";
+import { ui } from "../../i18n/ui";
+import { type SiteLang } from "../../i18n/utils";
+
+interface Props {
+  lang: SiteLang;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="section-band mt-20 py-10">
+  <Container>
+    <div class="flex flex-col gap-3 text-sm text-[var(--text-muted)] md:flex-row md:items-center md:justify-between">
+      <p>{ui[lang].footer}</p>
+      <p>MyWeb · {new Date().getFullYear()}</p>
+    </div>
+  </Container>
+</footer>

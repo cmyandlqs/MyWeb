@@ -1,0 +1,27 @@
+---
+title: "RF-DETR 阅读笔记：从模型结果回到任务定义"
+routeSlug: "rf-detr-reading-note"
+summary: "看论文和看指标都不够，研究笔记更需要回到任务定义、数据条件与失效模式。"
+publishedAt: "2026-05-04"
+tags:
+  - Research
+  - Object Detection
+  - RF-DETR
+readTime: "5 分钟"
+cover: "/images/research/rf-detr-note.svg"
+coverAlt: "RF-DETR research note cover"
+lang: "zh-CN"
+translationKey: "rf-detr-reading-note"
+featured: false
+draft: false
+---
+
+研究笔记最容易犯的错误，是只摘录论文结论，而没有把它放回自己的问题背景里。
+
+![RF-DETR note cover](/images/research/rf-detr-note.svg)
+
+这篇笔记的重点不是复述模型细节，而是记录：
+
+* 它解决的到底是哪类检测问题；
+* 指标提升在什么条件下成立；
+* 迁移到自己的任务时，哪些假设可能失效。

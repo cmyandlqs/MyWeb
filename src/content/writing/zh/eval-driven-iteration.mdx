@@ -1,0 +1,29 @@
+---
+title: "用评测驱动 Agent 迭代，而不是靠主观感觉修修补补"
+routeSlug: "eval-driven-agent-iteration"
+summary: "如果没有稳定的评测切面，很多 Agent 改动都会陷入看似变好、实际不可验证的状态。"
+publishedAt: "2026-05-06"
+tags:
+  - Evaluation
+  - Agent
+  - Reliability
+readTime: "6 分钟"
+cover: "/images/writing/eval-driven-iteration.svg"
+coverAlt: "Evaluation driven iteration cover"
+lang: "zh-CN"
+translationKey: "eval-driven-agent-iteration"
+featured: false
+draft: false
+---
+
+Agent 开发里最危险的阶段，是“感觉它好像更聪明了”。
+
+![Evaluation dashboard sketch](/images/writing/eval-driven-iteration.svg)
+
+只要缺少稳定评测，很多修复都可能引入新的退化。一个更可靠的做法是先回答：
+
+* 这次改动要改善哪个切面？
+* 失败样本能否复现？
+* 成功标准是业务答案、工具覆盖、还是证据链完整？
+
+当评测维度明确后，迭代就会从“拍脑袋调参”变成“围绕失败模式逐项收敛”。

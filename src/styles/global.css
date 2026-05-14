@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f4ed;
+  --surface: #fffdf8;
+  --surface-soft: #fbf7ef;
+  --surface-muted: #f2ebde;
+  --text-main: #2d2a26;
+  --text-muted: #746f66;
+  --text-subtle: #9a948a;
+  --border: #e7ded1;
+  --border-strong: #d8caba;
+  --accent: #c86f4a;
+  --accent-soft: #ead6c7;
+  --accent-muted: #9b5b3f;
+  --shadow-soft: 0 20px 60px rgba(78, 58, 35, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top left, rgba(200, 111, 74, 0.12), transparent 34%),
+    linear-gradient(180deg, #fbf7ef 0%, var(--background) 28%, #f4efe6 100%);
+  color: var(--text-main);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(200, 111, 74, 0.2);
+}
+
+.page-shell {
+  min-height: 100vh;
+}
+
+.section-band {
+  border-top: 1px solid rgba(216, 202, 186, 0.5);
+}
+
+.soft-panel {
+  border: 1px solid rgba(216, 202, 186, 0.7);
+  background: rgba(255, 253, 248, 0.82);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.eyebrow {
+  color: var(--accent-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rich-content {
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.rich-content > :first-child {
+  margin-top: 0;
+}
+
+.rich-content h2,
+.rich-content h3,
+.rich-content h4 {
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.rich-content p,
+.rich-content ul,
+.rich-content ol,
+.rich-content blockquote,
+.rich-content pre,
+.rich-content figure {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rich-content ul,
+.rich-content ol {
+  padding-left: 1.2rem;
+}
+
+.rich-content li + li {
+  margin-top: 0.45rem;
+}
+
+.rich-content blockquote {
+  border-left: 3px solid rgba(200, 111, 74, 0.45);
+  padding-left: 1rem;
+  color: var(--text-muted);
+}
+
+.rich-content code {
+  border-radius: 0.5rem;
+  background: rgba(231, 222, 209, 0.7);
+  padding: 0.15rem 0.38rem;
+  font-family:
+    "JetBrains Mono",
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  font-size: 0.92em;
+}
+
+.rich-content pre {
+  overflow-x: auto;
+  border: 1px solid rgba(216, 202, 186, 0.75);
+  border-radius: 1rem;
+  background: #f3ede3;
+  padding: 1rem;
+}
+
+.rich-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.rich-content img {
+  border: 1px solid rgba(216, 202, 186, 0.75);
+  border-radius: 1.25rem;
+  background: white;
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}

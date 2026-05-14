@@ -1,0 +1,14 @@
+---
+import AboutPage from "../components/about/AboutPage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="关于"
+  description="关于 MyWeb 与站点作者的长期研究、写作和构建方向。"
+  lang="zh-CN"
+  currentPath="/about"
+  translationHref="/en/about"
+>
+  <AboutPage lang="zh-CN" />
+</BaseLayout>

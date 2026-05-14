@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="MyWeb cover">
+  <rect width="1200" height="675" fill="#f8f3ea" />
+  <rect x="80" y="80" width="1040" height="515" rx="32" fill="#fffdf8" stroke="#e7ded1" stroke-width="2" />
+  <rect x="132" y="128" width="936" height="50" rx="20" fill="#f3ebde" />
+  <circle cx="170" cy="153" r="8" fill="#c86f4a" />
+  <circle cx="198" cy="153" r="8" fill="#e7ded1" />
+  <circle cx="226" cy="153" r="8" fill="#e7ded1" />
+  <text x="132" y="240" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="600" fill="#2d2a26">MyWeb</text>
+  <text x="132" y="286" font-family="Inter, Arial, sans-serif" font-size="22" fill="#746f66">Bilingual writing, projects, research, and life.</text>
+  <rect x="132" y="350" width="300" height="148" rx="24" fill="#fbf7ef" stroke="#d8caba" />
+  <rect x="462" y="350" width="300" height="148" rx="24" fill="#fbf7ef" stroke="#d8caba" />
+  <rect x="792" y="350" width="240" height="148" rx="24" fill="#fbf7ef" stroke="#d8caba" />
+</svg>

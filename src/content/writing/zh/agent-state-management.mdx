@@ -1,0 +1,36 @@
+---
+title: "从状态视角重看 Agent 系统设计"
+routeSlug: "agent-state-management"
+summary: "把 Agent 问题拆成状态、转换和边界条件，通常比直接谈 Prompt 更稳定。"
+publishedAt: "2026-05-10"
+updatedAt: "2026-05-12"
+tags:
+  - Agent
+  - LangGraph
+  - Workflow
+readTime: "7 分钟"
+cover: "/images/writing/agent-state-management.svg"
+coverAlt: "Agent state management cover"
+lang: "zh-CN"
+translationKey: "agent-state-management"
+featured: true
+draft: false
+---
+
+很多 Agent 系统的问题，表面上看像是提示词不够好，实际更常见的根因是状态设计过于松散。
+
+![Agent state diagram](/images/writing/agent-state-management.svg)
+
+如果把系统拆成状态、状态转移和外部工具边界，会更容易回答下面这些问题：
+
+1. 当前输入到底处于哪个阶段。
+2. 哪些字段是必须保留的上下文。
+3. 哪些失败属于可重试，哪些应该直接中断。
+
+一个稳健的工作流，通常至少要明确三类状态：
+
+* 用户意图理解后的任务状态
+* 工具调用后的结果状态
+* 交付前的审查或回退状态
+
+对个人站点里的技术写作来说，这类文章的价值不在于给出唯一答案，而是把思考路径公开出来，方便后续复用。

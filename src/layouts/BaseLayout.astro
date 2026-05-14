@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+import Footer from "../components/layout/Footer.astro";
+import Header from "../components/layout/Header.astro";
+import { SITE_NAME, getOppositeLang, type SiteLang } from "../i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: SiteLang;
+  currentPath: string;
+  translationHref?: string;
+}
+
+const { title, description, lang, currentPath, translationHref } = Astro.props;
+const pageTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+const alternateLang = getOppositeLang(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {translationHref && (
+      <link
+        rel="alternate"
+        hreflang={alternateLang}
+        href={new URL(translationHref, Astro.url).toString()}
+      />
+    )}
+  </head>
+  <body>
+    <div class="page-shell">
+      <Header lang={lang} currentPath={currentPath} translationHref={translationHref} />
+      <main>
+        <slot />
+      </main>
+      <Footer lang={lang} />
+    </div>
+  </body>
+</html>

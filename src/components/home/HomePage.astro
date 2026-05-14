@@ -1,0 +1,173 @@
+---
+import Container from "../layout/Container.astro";
+import Avatar from "../ui/Avatar.astro";
+import Badge from "../ui/Badge.astro";
+import Button from "../ui/Button.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+import ArticleCard from "../content/ArticleCard.astro";
+import ProjectCard from "../content/ProjectCard.astro";
+import { ui } from "../../i18n/ui";
+import {
+  getCollectionPath,
+  type SiteLang,
+} from "../../i18n/utils";
+import {
+  getEntryPath,
+  getFeaturedProjects,
+  getLatestEntries,
+} from "../../lib/content/translations";
+
+interface Props {
+  lang: SiteLang;
+}
+
+const { lang } = Astro.props;
+const copy = ui[lang];
+const [featuredProjects, latestWriting, latestResearch, latestLife] = await Promise.all([
+  getFeaturedProjects(lang),
+  getLatestEntries("writing", lang, 3),
+  getLatestEntries("research", lang, 2),
+  getLatestEntries("life", lang, 2),
+]);
+---
+
+<section class="pb-10 pt-14 sm:pt-18">
+  <Container>
+    <div class="grid gap-10 lg:grid-cols-[1.35fr_0.85fr] lg:items-center">
+      <div class="max-w-3xl">
+        <p class="eyebrow">{copy.hero.eyebrow}</p>
+        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-[var(--text-main)] sm:text-5xl lg:text-6xl">
+          {copy.hero.title}
+        </h1>
+        <p class="mt-5 text-lg text-[var(--text-muted)]">{copy.hero.subtitle}</p>
+        <p class="mt-6 max-w-2xl text-base leading-8 text-[var(--text-muted)] sm:text-lg">
+          {copy.hero.description}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href={getCollectionPath("writing", lang)}>{copy.hero.primaryCta}</Button>
+          <Button href={getCollectionPath("projects", lang)} variant="secondary">
+            {copy.hero.secondaryCta}
+          </Button>
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-[0.95fr_1.05fr] lg:grid-cols-1">
+        <Avatar src="/images/profile/avatar.svg" alt="sikm avatar placeholder" />
+        <div class="soft-panel rounded-[2rem] p-6">
+          <p class="eyebrow">{copy.labels.currentFocus}</p>
+          <h2 class="mt-4 text-2xl font-semibold text-[var(--text-main)]">
+            {copy.home.focusTitle}
+          </h2>
+          <p class="mt-3 text-sm text-[var(--text-muted)]">{copy.home.focusDescription}</p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            {copy.currentFocus.map((item) => (
+              <Badge>{item}</Badge>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<section class="section-band py-14">
+  <Container>
+    <SectionTitle
+      eyebrow={copy.labels.featured}
+      title={copy.home.projectsTitle}
+      description={copy.home.projectsDescription}
+    />
+    <div class="mt-10 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+      {featuredProjects.map((entry) => (
+        <ProjectCard
+          href={getEntryPath("projects", lang, entry)}
+          title={entry.data.title}
+          summary={entry.data.summary}
+          status={entry.data.status}
+          stack={entry.data.stack}
+          cover={entry.data.cover}
+          coverAlt={entry.data.coverAlt}
+          repoUrl={entry.data.repoUrl}
+          demoUrl={entry.data.demoUrl}
+        />
+      ))}
+    </div>
+  </Container>
+</section>
+
+<section class="section-band py-14">
+  <Container>
+    <SectionTitle
+      eyebrow={copy.labels.latest}
+      title={copy.home.writingTitle}
+      description={copy.home.writingDescription}
+    />
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {latestWriting.map((entry) => (
+        <ArticleCard
+          href={getEntryPath("writing", lang, entry)}
+          title={entry.data.title}
+          summary={entry.data.summary}
+          publishedAt={entry.data.publishedAt}
+          tags={entry.data.tags}
+          readTime={entry.data.readTime}
+          lang={lang}
+          cover={entry.data.cover}
+          coverAlt={entry.data.coverAlt}
+        />
+      ))}
+    </div>
+  </Container>
+</section>
+
+<section class="section-band py-14">
+  <Container>
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div>
+        <SectionTitle
+          eyebrow={copy.labels.latest}
+          title={copy.home.researchTitle}
+          description={copy.home.researchDescription}
+        />
+        <div class="mt-8 space-y-4">
+          {latestResearch.map((entry) => (
+            <ArticleCard
+              href={getEntryPath("research", lang, entry)}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              publishedAt={entry.data.publishedAt}
+              tags={entry.data.tags}
+              readTime={entry.data.readTime}
+              lang={lang}
+              cover={entry.data.cover}
+              coverAlt={entry.data.coverAlt}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <SectionTitle
+          eyebrow={copy.labels.latest}
+          title={copy.home.lifeTitle}
+          description={copy.home.lifeDescription}
+        />
+        <div class="mt-8 space-y-4">
+          {latestLife.map((entry) => (
+            <ArticleCard
+              href={getEntryPath("life", lang, entry)}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              publishedAt={entry.data.publishedAt}
+              tags={entry.data.tags}
+              readTime={entry.data.readTime}
+              lang={lang}
+              cover={entry.data.cover}
+              coverAlt={entry.data.coverAlt}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

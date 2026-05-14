@@ -1,0 +1,30 @@
+---
+title: "Rethinking Agent Design Through State"
+routeSlug: "agent-state-management"
+summary: "State transitions and explicit boundaries usually stabilize an agent system more than endless prompt tweaking."
+publishedAt: "2026-05-10"
+updatedAt: "2026-05-12"
+tags:
+  - Agent
+  - LangGraph
+  - Workflow
+readTime: "7 min read"
+cover: "/images/writing/agent-state-management.svg"
+coverAlt: "Agent state management cover"
+lang: "en"
+translationKey: "agent-state-management"
+featured: true
+draft: false
+---
+
+Many agent issues look like prompt problems at first, but the deeper cause is often loose state design.
+
+![Agent state diagram](/images/writing/agent-state-management.svg)
+
+Once the system is framed as states, transitions, and tool boundaries, it becomes easier to reason about:
+
+1. which stage the request is in,
+2. what context must be preserved,
+3. and what should retry versus hard-stop.
+
+For a personal technical site, the point is not to claim a final answer. The point is to make the reasoning path legible and reusable.

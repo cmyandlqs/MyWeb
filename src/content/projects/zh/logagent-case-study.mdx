@@ -1,0 +1,50 @@
+---
+title: "LogAgent：面向复杂失败日志的多阶段诊断实验"
+routeSlug: "logagent-case-study"
+summary: "把日志诊断拆成分阶段 Agent 流程，并通过评测回看真实失败类型。"
+publishedAt: "2026-05-08"
+updatedAt: "2026-05-11"
+tags:
+  - Multi-Agent
+  - Evaluation
+  - Observability
+cover: "/images/projects/logagent-cover.svg"
+coverAlt: "LogAgent cover"
+lang: "zh-CN"
+translationKey: "logagent-case-study"
+featured: true
+draft: false
+status: "In Progress"
+stack:
+  - Python
+  - Agent Workflow
+  - Prompting
+  - Evaluation
+repoUrl: "https://github.com/example/logagent"
+caseStudyUrl: "https://example.com/logagent-case-study"
+---
+
+## 项目背景
+
+日志诊断类问题的难点，不只是“读懂日志”，而是需要把定位、归因、证据组织和最终表达拆开处理。
+
+![LogAgent cover](/images/projects/logagent-cover.svg)
+
+## 为什么做
+
+单一 Agent 往往会把日志里不同粒度的问题揉在一起，导致结论看似完整，实际上证据链松散。
+
+## 核心功能
+
+* 解析输入日志与上下文
+* 分阶段生成候选原因
+* 汇总证据并形成交付结论
+* 通过失败样本反推流程薄弱点
+
+## 关键难点
+
+最难的部分不是生成结论，而是保证“结论是否真正被证据支撑”。
+
+## 下一步
+
+后续会继续补齐样本分桶、错误模式归纳和回归验证机制。

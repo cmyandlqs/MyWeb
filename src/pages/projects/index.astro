@@ -1,0 +1,14 @@
+---
+import CollectionIndexPage from "../../components/content/CollectionIndexPage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="项目"
+  description="围绕问题定义、技术路径、难点和结果展开的项目案例。"
+  lang="zh-CN"
+  currentPath="/projects"
+  translationHref="/en/projects"
+>
+  <CollectionIndexPage collection="projects" lang="zh-CN" />
+</BaseLayout>

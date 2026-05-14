@@ -1,0 +1,14 @@
+---
+import HomePage from "../../components/home/HomePage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="MyWeb"
+  description="A bilingual personal site for research notes, writing, projects, and life."
+  lang="en"
+  currentPath="/en"
+  translationHref="/"
+>
+  <HomePage lang="en" />
+</BaseLayout>

@@ -1,0 +1,97 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/layout/Container.astro";
+import Badge from "../components/ui/Badge.astro";
+import Button from "../components/ui/Button.astro";
+import { ui } from "../i18n/ui";
+import {
+  formatDate,
+  type SiteCollection,
+  type SiteLang,
+} from "../i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: SiteLang;
+  currentPath: string;
+  translationHref?: string;
+  collection: SiteCollection;
+  publishedAt: string;
+  updatedAt?: string;
+  readTime?: string;
+  tags?: string[];
+  cover?: string;
+  coverAlt?: string;
+  backHref: string;
+}
+
+const {
+  title,
+  description,
+  lang,
+  currentPath,
+  translationHref,
+  publishedAt,
+  updatedAt,
+  readTime,
+  tags = [],
+  cover,
+  coverAlt = "",
+  backHref,
+} = Astro.props;
+
+const copy = ui[lang];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  currentPath={currentPath}
+  translationHref={translationHref}
+>
+  <section class="pb-20 pt-14">
+    <Container>
+      <div class="mx-auto max-w-3xl">
+        <Button href={backHref} variant="secondary">{copy.labels.backToList}</Button>
+        <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-[var(--text-subtle)]">
+          <span>{formatDate(publishedAt, lang)}</span>
+          {updatedAt && (
+            <>
+              <span>·</span>
+              <span>
+                {copy.labels.updatedAt} {formatDate(updatedAt, lang)}
+              </span>
+            </>
+          )}
+          {readTime && (
+            <>
+              <span>·</span>
+              <span>{readTime}</span>
+            </>
+          )}
+        </div>
+        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-[var(--text-main)] sm:text-5xl">
+          {title}
+        </h1>
+        <p class="mt-5 text-lg leading-8 text-[var(--text-muted)]">{description}</p>
+        {tags.length > 0 && (
+          <div class="mt-6 flex flex-wrap gap-2">
+            {tags.map((tag) => <Badge>{tag}</Badge>)}
+          </div>
+        )}
+        {cover && (
+          <img
+            src={cover}
+            alt={coverAlt}
+            class="mt-8 rounded-[1.6rem] border border-[rgba(216,202,186,0.78)] bg-white shadow-[var(--shadow-soft)]"
+          />
+        )}
+        <article class="rich-content mt-10">
+          <slot />
+        </article>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

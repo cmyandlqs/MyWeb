@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="RF-DETR research note cover">
+  <rect width="1200" height="675" fill="#fbf7ef" />
+  <rect x="84" y="84" width="1032" height="507" rx="28" fill="#fffdf8" stroke="#e7ded1" stroke-width="2" />
+  <text x="128" y="154" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="600" fill="#2d2a26">RF-DETR Reading Note</text>
+  <text x="128" y="194" font-family="Inter, Arial, sans-serif" font-size="20" fill="#746f66">Task framing · assumptions · failure modes</text>
+  <g fill="#f7f0e5" stroke="#d8caba" stroke-width="2">
+    <rect x="128" y="260" width="944" height="250" rx="24" />
+  </g>
+  <path d="M212 420l120-110 140 128 126-168 126 94 148-58 116 114" fill="none" stroke="#c86f4a" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" />
+</svg>

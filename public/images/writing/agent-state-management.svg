@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Agent state management illustration">
+  <rect width="1200" height="675" fill="#fbf7ef" />
+  <rect x="68" y="68" width="1064" height="539" rx="28" fill="#fffdf8" stroke="#e7ded1" stroke-width="2" />
+  <g fill="#2d2a26" font-family="Inter, Arial, sans-serif">
+    <text x="110" y="145" font-size="34" font-weight="600">Agent State Management</text>
+    <text x="110" y="184" font-size="20" fill="#746f66">Intent → Plan → Tool Result → Review</text>
+  </g>
+  <g>
+    <rect x="116" y="270" width="210" height="112" rx="24" fill="#f7f0e5" stroke="#d8caba" />
+    <rect x="494" y="270" width="210" height="112" rx="24" fill="#f7f0e5" stroke="#d8caba" />
+    <rect x="872" y="270" width="210" height="112" rx="24" fill="#f7f0e5" stroke="#d8caba" />
+    <text x="221" y="334" text-anchor="middle" font-size="24" font-family="Inter, Arial, sans-serif" fill="#2d2a26">Task Intent</text>
+    <text x="599" y="334" text-anchor="middle" font-size="24" font-family="Inter, Arial, sans-serif" fill="#2d2a26">Tool Result</text>
+    <text x="977" y="334" text-anchor="middle" font-size="24" font-family="Inter, Arial, sans-serif" fill="#2d2a26">Review Gate</text>
+    <path d="M326 326h142" stroke="#c86f4a" stroke-width="4" stroke-linecap="round" />
+    <path d="M704 326h142" stroke="#c86f4a" stroke-width="4" stroke-linecap="round" />
+    <path d="M448 318l20 8-20 8" fill="none" stroke="#c86f4a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M826 318l20 8-20 8" fill="none" stroke="#c86f4a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="my-8 overflow-hidden rounded-[1.3rem] border border-[rgba(216,202,186,0.75)] bg-white shadow-[var(--shadow-soft)]">
+  <img src={src} alt={alt} class="w-full object-cover" loading="lazy" />
+  {caption && <figcaption class="px-5 py-4 text-sm text-[var(--text-muted)]">{caption}</figcaption>}
+</figure>
