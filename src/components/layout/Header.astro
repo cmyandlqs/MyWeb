@@ -34,7 +34,7 @@ const isActive = (href: string) =>
 
 <header class="sticky top-0 z-40 border-b border-[rgba(216,202,186,0.55)] bg-[rgba(247,244,237,0.82)] backdrop-blur-xl">
   <Container>
-    <div class="flex min-h-16 items-center justify-between gap-4 py-3">
+    <div class="flex min-h-14 items-center justify-between gap-4 py-2">
       <a
         href={getHomePath(lang)}
         class="text-sm font-semibold tracking-[0.12em] text-[var(--text-main)] uppercase"
@@ -42,7 +42,7 @@ const isActive = (href: string) =>
         sikm
       </a>
 
-      <nav class="hidden items-center gap-5 text-sm text-[var(--text-muted)] md:flex">
+      <nav class="hidden items-center gap-4 text-sm text-[var(--text-muted)] md:flex">
         {navItems.map((item) => (
           <a
             href={item.href}

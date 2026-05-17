@@ -71,7 +71,7 @@ img {
 
 .eyebrow {
   color: var(--accent-muted);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -156,5 +156,9 @@ img {
 @media (max-width: 768px) {
   body {
     font-size: 15px;
+  }
+
+  .section-band {
+    scroll-margin-top: 4.5rem;
   }
 }

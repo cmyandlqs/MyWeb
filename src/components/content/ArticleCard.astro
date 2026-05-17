@@ -12,6 +12,7 @@ interface Props {
   lang: SiteLang;
   cover?: string;
   coverAlt?: string;
+  variant?: "default" | "compact";
 }
 
 const {
@@ -24,17 +25,28 @@ const {
   lang,
   cover,
   coverAlt = "",
+  variant = "default",
 } = Astro.props;
+
+const visibleTags = tags.slice(0, variant === "compact" ? 2 : 3);
+const hiddenTagCount = Math.max(tags.length - visibleTags.length, 0);
+const hasCover = variant === "default" && cover;
 ---
 
-<article class="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.92)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]">
-  {cover && (
+<article class:list={[
+  "group flex h-full flex-col overflow-hidden border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.92)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
+  variant === "compact" ? "rounded-[1.1rem]" : "rounded-[1.35rem]",
+]}>
+  {hasCover && (
     <a href={href} class="border-b border-[rgba(216,202,186,0.58)]">
-      <img src={cover} alt={coverAlt} class="aspect-[16/9] w-full object-cover" loading="lazy" />
+      <img src={cover} alt={coverAlt} class="h-32 w-full object-cover sm:h-36" loading="lazy" />
     </a>
   )}
-  <div class="flex flex-1 flex-col gap-4 p-5">
-    <div class="flex flex-wrap items-center gap-2 text-sm text-[var(--text-subtle)]">
+  <div class:list={[
+    "flex flex-1 flex-col",
+    variant === "compact" ? "gap-2.5 p-4" : "gap-3.5 p-4 sm:p-5",
+  ]}>
+    <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)] sm:text-sm">
       <span>{formatDate(publishedAt, lang)}</span>
       {readTime && (
         <>
@@ -43,17 +55,28 @@ const {
         </>
       )}
     </div>
-    <div class="space-y-3">
-      <h3 class="text-xl font-semibold tracking-tight text-[var(--text-main)]">
+    <div class:list={[variant === "compact" ? "space-y-2" : "space-y-2.5"]}>
+      <h3 class:list={[
+        "font-semibold tracking-tight text-[var(--text-main)]",
+        variant === "compact"
+          ? "text-base sm:text-lg [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden"
+          : "text-lg sm:text-xl [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden",
+      ]}>
         <a href={href} class="transition-colors group-hover:text-[var(--accent-muted)]">
           {title}
         </a>
       </h3>
-      <p class="text-sm leading-7 text-[var(--text-muted)]">{summary}</p>
+      <p class:list={[
+        "text-sm text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden",
+        variant === "compact" ? "leading-6 [-webkit-line-clamp:2]" : "leading-6 [-webkit-line-clamp:2]",
+      ]}>
+        {summary}
+      </p>
     </div>
     {tags.length > 0 && (
       <div class="mt-auto flex flex-wrap gap-2">
-        {tags.slice(0, 4).map((tag) => <Badge>{tag}</Badge>)}
+        {visibleTags.map((tag) => <Badge compact>{tag}</Badge>)}
+        {hiddenTagCount > 0 && <Badge compact>{`+${hiddenTagCount}`}</Badge>}
       </div>
     )}
   </div>

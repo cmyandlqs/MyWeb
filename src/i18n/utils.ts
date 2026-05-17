@@ -1,6 +1,10 @@
 export const SITE_NAME = "MyWeb";
 export const DEFAULT_LANG = "zh-CN";
 export const SUPPORTED_LANGS = [DEFAULT_LANG, "en"] as const;
+export const PROFILE_AVATAR_SRC = "/images/profile/avatar.jpg";
+export const GITHUB_URL = "https://github.com/cmyandlqs";
+export const GITHUB_HANDLE = "cmyandlqs";
+export const BILIBILI_URL = "https://space.bilibili.com/563285166?spm_id_from=333.337.0.0";
 
 export type SiteLang = (typeof SUPPORTED_LANGS)[number];
 export type SiteCollection = "writing" | "projects" | "research" | "life";

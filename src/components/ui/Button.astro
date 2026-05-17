@@ -15,8 +15,8 @@ const {
 
 const className =
   variant === "primary"
-    ? "rounded-full bg-[var(--text-main)] px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-[var(--accent-muted)]"
-    : "rounded-full border border-[rgba(216,202,186,0.85)] bg-white/70 px-5 py-3 text-sm font-medium text-[var(--text-main)] transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.35)]";
+    ? "inline-flex min-w-[6.75rem] items-center justify-center rounded-full bg-[var(--text-main)] px-[1.125rem] py-2.5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-[var(--accent-muted)]"
+    : "inline-flex min-w-[6.75rem] items-center justify-center rounded-full border border-[rgba(216,202,186,0.85)] bg-white/70 px-[1.125rem] py-2.5 text-sm font-medium text-[var(--text-main)] transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.35)]";
 ---
 
 <a class={className} href={href} target={target} rel={rel}>

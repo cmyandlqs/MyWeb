@@ -1,6 +1,5 @@
 ---
 import Container from "../layout/Container.astro";
-import Avatar from "../ui/Avatar.astro";
 import Badge from "../ui/Badge.astro";
 import Button from "../ui/Button.astro";
 import SectionTitle from "../ui/SectionTitle.astro";
@@ -8,7 +7,12 @@ import ArticleCard from "../content/ArticleCard.astro";
 import ProjectCard from "../content/ProjectCard.astro";
 import { ui } from "../../i18n/ui";
 import {
+  BILIBILI_URL,
+  formatDate,
+  GITHUB_HANDLE,
+  GITHUB_URL,
   getCollectionPath,
+  PROFILE_AVATAR_SRC,
   type SiteLang,
 } from "../../i18n/utils";
 import {
@@ -26,43 +30,135 @@ const copy = ui[lang];
 const [featuredProjects, latestWriting, latestResearch, latestLife] = await Promise.all([
   getFeaturedProjects(lang),
   getLatestEntries("writing", lang, 3),
-  getLatestEntries("research", lang, 2),
-  getLatestEntries("life", lang, 2),
+  getLatestEntries("research", lang, 3),
+  getLatestEntries("life", lang, 3),
 ]);
+const primaryResearch = latestResearch[0];
+const primaryLife = latestLife[0];
+const secondaryResearch = latestResearch.slice(1);
+const secondaryLife = latestLife.slice(1);
+const heroWritingPreview = latestWriting.slice(0, 2);
 ---
 
-<section class="pb-10 pt-14 sm:pt-18">
+<section class="pb-2 pt-8 sm:pt-10 lg:pb-3 lg:pt-8">
   <Container>
-    <div class="grid gap-10 lg:grid-cols-[1.35fr_0.85fr] lg:items-center">
-      <div class="max-w-3xl">
+    <div class="grid gap-6 lg:grid-cols-[1.22fr_0.78fr] lg:items-start xl:gap-8">
+      <div class="max-w-[42rem] pt-2">
         <p class="eyebrow">{copy.hero.eyebrow}</p>
-        <h1 class="mt-5 text-4xl font-semibold tracking-tight text-[var(--text-main)] sm:text-5xl lg:text-6xl">
+        <h1 class="mt-3 text-[3.15rem] font-semibold tracking-tight text-[var(--text-main)] sm:text-[3.45rem] lg:text-[3.65rem]">
           {copy.hero.title}
         </h1>
-        <p class="mt-5 text-lg text-[var(--text-muted)]">{copy.hero.subtitle}</p>
-        <p class="mt-6 max-w-2xl text-base leading-8 text-[var(--text-muted)] sm:text-lg">
+        <p class="mt-3.5 text-[0.98rem] text-[var(--text-muted)] sm:text-[1.04rem]">{copy.hero.subtitle}</p>
+        <p class="mt-4 max-w-[38rem] text-sm leading-[1.65rem] text-[var(--text-muted)] sm:text-[0.98rem]">
           {copy.hero.description}
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
+        <div class="mt-5 flex flex-wrap gap-2.5">
           <Button href={getCollectionPath("writing", lang)}>{copy.hero.primaryCta}</Button>
           <Button href={getCollectionPath("projects", lang)} variant="secondary">
             {copy.hero.secondaryCta}
           </Button>
         </div>
+
+        <div class="mt-6 max-w-[40rem]">
+          <div class="soft-panel rounded-[1.35rem] p-4 sm:p-[1.125rem]">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="eyebrow">{copy.labels.latest}</p>
+                <h2 class="mt-2 text-base font-semibold text-[var(--text-main)] sm:text-lg">
+                  {copy.home.writingTitle}
+                </h2>
+              </div>
+              <a
+                href={getCollectionPath("writing", lang)}
+                class="text-xs font-medium text-[var(--text-muted)] transition hover:text-[var(--text-main)]"
+              >
+                {copy.hero.primaryCta}
+              </a>
+            </div>
+
+            <div class="mt-4 grid gap-3 md:grid-cols-2">
+              {heroWritingPreview.map((entry) => (
+                <a
+                  href={getEntryPath("writing", lang, entry)}
+                  class="rounded-[1rem] border border-[rgba(216,202,186,0.62)] bg-[rgba(255,253,248,0.74)] p-3.5 transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.28)]"
+                >
+                  <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)]">
+                    <span>{formatDate(entry.data.publishedAt, lang)}</span>
+                    {entry.data.readTime && (
+                      <>
+                        <span>·</span>
+                        <span>{entry.data.readTime}</span>
+                      </>
+                    )}
+                  </div>
+                  <h3 class="mt-2 text-sm font-semibold leading-6 text-[var(--text-main)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
+                    {entry.data.title}
+                  </h3>
+                  <p class="mt-1.5 text-sm leading-6 text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
+                    {entry.data.summary}
+                  </p>
+                  {entry.data.tags.length > 0 && (
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      {entry.data.tags.slice(0, 2).map((tag) => (
+                        <Badge compact>{tag}</Badge>
+                      ))}
+                      {entry.data.tags.length > 2 && <Badge compact>{`+${entry.data.tags.length - 2}`}</Badge>}
+                    </div>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-[0.95fr_1.05fr] lg:grid-cols-1">
-        <Avatar src="/images/profile/avatar.svg" alt="sikm avatar placeholder" />
-        <div class="soft-panel rounded-[2rem] p-6">
-          <p class="eyebrow">{copy.labels.currentFocus}</p>
-          <h2 class="mt-4 text-2xl font-semibold text-[var(--text-main)]">
-            {copy.home.focusTitle}
-          </h2>
-          <p class="mt-3 text-sm text-[var(--text-muted)]">{copy.home.focusDescription}</p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            {copy.currentFocus.map((item) => (
-              <Badge>{item}</Badge>
-            ))}
+      <div class="lg:max-w-[19rem] lg:justify-self-end">
+        <div class="soft-panel overflow-hidden rounded-[1.5rem] p-3">
+          <div class="rounded-[1.15rem] border border-[rgba(216,202,186,0.65)] bg-[rgba(255,250,242,0.74)] p-3">
+            <img
+              src={PROFILE_AVATAR_SRC}
+              alt="sikm avatar"
+              class="aspect-square w-full rounded-[1rem] border border-[rgba(216,202,186,0.58)] object-cover"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="mt-3 rounded-[1.15rem] border border-[rgba(216,202,186,0.52)] bg-[rgba(255,253,248,0.76)] p-4">
+            <p class="eyebrow">{copy.labels.currentFocus}</p>
+            <h2 class="mt-2.5 text-lg font-semibold text-[var(--text-main)] sm:text-[1.2rem]">
+              {copy.home.focusTitle}
+            </h2>
+            <p class="mt-2 text-sm leading-[1.4rem] text-[var(--text-muted)]">{copy.home.focusDescription}</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {copy.currentFocus.slice(0, 3).map((item) => (
+                <Badge compact>{item}</Badge>
+              ))}
+              {copy.currentFocus.length > 3 && <Badge compact>{`+${copy.currentFocus.length - 3}`}</Badge>}
+            </div>
+
+            <div class="mt-4 border-t border-[rgba(216,202,186,0.4)] pt-3">
+              <p class="text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--text-subtle)]">
+                Links
+              </p>
+              <div class="mt-2.5 flex flex-wrap gap-2">
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+                >
+                  GitHub
+                </a>
+                <a
+                  href={BILIBILI_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+                >
+                  Bilibili
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -70,14 +166,14 @@ const [featuredProjects, latestWriting, latestResearch, latestLife] = await Prom
   </Container>
 </section>
 
-<section class="section-band py-14">
+<section class="section-band py-8 lg:py-10">
   <Container>
     <SectionTitle
       eyebrow={copy.labels.featured}
       title={copy.home.projectsTitle}
       description={copy.home.projectsDescription}
     />
-    <div class="mt-10 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
       {featuredProjects.map((entry) => (
         <ProjectCard
           href={getEntryPath("projects", lang, entry)}
@@ -89,20 +185,21 @@ const [featuredProjects, latestWriting, latestResearch, latestLife] = await Prom
           coverAlt={entry.data.coverAlt}
           repoUrl={entry.data.repoUrl}
           demoUrl={entry.data.demoUrl}
+          variant="compact"
         />
       ))}
     </div>
   </Container>
 </section>
 
-<section class="section-band py-14">
+<section class="section-band py-8 lg:py-10">
   <Container>
     <SectionTitle
       eyebrow={copy.labels.latest}
       title={copy.home.writingTitle}
       description={copy.home.writingDescription}
     />
-    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+    <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
       {latestWriting.map((entry) => (
         <ArticleCard
           href={getEntryPath("writing", lang, entry)}
@@ -120,17 +217,32 @@ const [featuredProjects, latestWriting, latestResearch, latestLife] = await Prom
   </Container>
 </section>
 
-<section class="section-band py-14">
+<section class="section-band py-8 lg:py-10">
   <Container>
-    <div class="grid gap-10 lg:grid-cols-2">
-      <div>
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="space-y-5">
         <SectionTitle
           eyebrow={copy.labels.latest}
           title={copy.home.researchTitle}
           description={copy.home.researchDescription}
         />
-        <div class="mt-8 space-y-4">
-          {latestResearch.map((entry) => (
+        <div class="space-y-3">
+          {
+            primaryResearch && (
+              <ArticleCard
+                href={getEntryPath("research", lang, primaryResearch)}
+                title={primaryResearch.data.title}
+                summary={primaryResearch.data.summary}
+                publishedAt={primaryResearch.data.publishedAt}
+                tags={primaryResearch.data.tags}
+                readTime={primaryResearch.data.readTime}
+                lang={lang}
+                cover={primaryResearch.data.cover}
+                coverAlt={primaryResearch.data.coverAlt}
+              />
+            )
+          }
+          {secondaryResearch.map((entry) => (
             <ArticleCard
               href={getEntryPath("research", lang, entry)}
               title={entry.data.title}
@@ -139,21 +251,35 @@ const [featuredProjects, latestWriting, latestResearch, latestLife] = await Prom
               tags={entry.data.tags}
               readTime={entry.data.readTime}
               lang={lang}
-              cover={entry.data.cover}
-              coverAlt={entry.data.coverAlt}
+              variant="compact"
             />
           ))}
         </div>
       </div>
 
-      <div>
+      <div class="space-y-5">
         <SectionTitle
           eyebrow={copy.labels.latest}
           title={copy.home.lifeTitle}
           description={copy.home.lifeDescription}
         />
-        <div class="mt-8 space-y-4">
-          {latestLife.map((entry) => (
+        <div class="space-y-3">
+          {
+            primaryLife && (
+              <ArticleCard
+                href={getEntryPath("life", lang, primaryLife)}
+                title={primaryLife.data.title}
+                summary={primaryLife.data.summary}
+                publishedAt={primaryLife.data.publishedAt}
+                tags={primaryLife.data.tags}
+                readTime={primaryLife.data.readTime}
+                lang={lang}
+                cover={primaryLife.data.cover}
+                coverAlt={primaryLife.data.coverAlt}
+              />
+            )
+          }
+          {secondaryLife.map((entry) => (
             <ArticleCard
               href={getEntryPath("life", lang, entry)}
               title={entry.data.title}
@@ -162,8 +288,7 @@ const [featuredProjects, latestWriting, latestResearch, latestLife] = await Prom
               tags={entry.data.tags}
               readTime={entry.data.readTime}
               lang={lang}
-              cover={entry.data.cover}
-              coverAlt={entry.data.coverAlt}
+              variant="compact"
             />
           ))}
         </div>

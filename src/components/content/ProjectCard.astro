@@ -11,6 +11,7 @@ interface Props {
   coverAlt?: string;
   repoUrl?: string;
   demoUrl?: string;
+  variant?: "default" | "compact";
 }
 
 const {
@@ -23,30 +24,58 @@ const {
   coverAlt = "",
   repoUrl,
   demoUrl,
+  variant = "default",
 } = Astro.props;
+
+const visibleStack = stack.slice(0, 3);
+const hiddenStackCount = Math.max(stack.length - visibleStack.length, 0);
+const compact = variant === "compact";
 ---
 
-<article class="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.94)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]">
+<article class:list={[
+  "group flex h-full flex-col overflow-hidden border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.94)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
+  compact ? "rounded-[1.2rem]" : "rounded-[1.35rem]",
+]}>
   {cover && (
     <a href={href} class="border-b border-[rgba(216,202,186,0.58)]">
-      <img src={cover} alt={coverAlt} class="aspect-[16/9] w-full object-cover" loading="lazy" />
+      <img
+        src={cover}
+        alt={coverAlt}
+        class:list={[
+          "w-full object-cover",
+          compact ? "h-28 sm:h-[7.5rem]" : "h-32 sm:h-36",
+        ]}
+        loading="lazy"
+      />
     </a>
   )}
-  <div class="flex flex-1 flex-col gap-4 p-5">
+  <div class:list={[
+    "flex flex-1 flex-col",
+    compact ? "gap-3 p-4" : "gap-3.5 p-4 sm:p-5",
+  ]}>
     <div class="flex items-center justify-between gap-3">
-      <h3 class="text-xl font-semibold tracking-tight text-[var(--text-main)]">
+      <h3 class:list={[
+        "font-semibold tracking-tight text-[var(--text-main)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden",
+        compact ? "text-base sm:text-lg" : "text-lg sm:text-xl",
+      ]}>
         <a href={href} class="transition-colors group-hover:text-[var(--accent-muted)]">
           {title}
         </a>
       </h3>
-      <Badge tone="accent">{status}</Badge>
+      <Badge tone="accent" compact>{status}</Badge>
     </div>
-    <p class="text-sm leading-7 text-[var(--text-muted)]">{summary}</p>
-    <div class="mt-auto flex flex-col gap-3">
+    <p class="text-sm leading-6 text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
+      {summary}
+    </p>
+    <div class="mt-auto flex flex-col gap-2.5">
       <div class="flex flex-wrap gap-2">
-        {stack.slice(0, 5).map((item) => <Badge>{item}</Badge>)}
+        {visibleStack.map((item) => <Badge compact>{item}</Badge>)}
+        {hiddenStackCount > 0 && <Badge compact>{`+${hiddenStackCount}`}</Badge>}
       </div>
-      <div class="flex flex-wrap gap-4 text-sm text-[var(--text-muted)]">
+      <div class:list={[
+        "flex flex-wrap items-center border-t border-[rgba(216,202,186,0.4)] text-sm text-[var(--text-muted)]",
+        compact ? "gap-3 pt-2" : "gap-4 pt-2.5",
+      ]}>
         {repoUrl && (
           <a href={repoUrl} target="_blank" rel="noreferrer" class="hover:text-[var(--text-main)]">
             GitHub

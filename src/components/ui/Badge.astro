@@ -1,13 +1,14 @@
 ---
 interface Props {
   tone?: "default" | "accent";
+  compact?: boolean;
 }
 
-const { tone = "default" } = Astro.props;
+const { tone = "default", compact = false } = Astro.props;
 const className =
   tone === "accent"
-    ? "rounded-full border border-[rgba(200,111,74,0.28)] bg-[rgba(234,214,199,0.72)] px-3 py-1 text-xs font-medium text-[var(--accent-muted)]"
-    : "rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.9)] px-3 py-1 text-xs font-medium text-[var(--text-muted)]";
+    ? `rounded-full border border-[rgba(200,111,74,0.28)] bg-[rgba(234,214,199,0.72)] ${compact ? "px-2.5 py-0.5 text-[0.69rem]" : "px-3 py-1 text-xs"} font-medium text-[var(--accent-muted)]`
+    : `rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.9)] ${compact ? "px-2.5 py-0.5 text-[0.69rem]" : "px-3 py-1 text-xs"} font-medium text-[var(--text-muted)]`;
 ---
 
 <span class={className}>

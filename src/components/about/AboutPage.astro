@@ -3,7 +3,7 @@ import Container from "../layout/Container.astro";
 import SectionTitle from "../ui/SectionTitle.astro";
 import Badge from "../ui/Badge.astro";
 import { ui } from "../../i18n/ui";
-import { type SiteLang } from "../../i18n/utils";
+import { BILIBILI_URL, GITHUB_URL, type SiteLang } from "../../i18n/utils";
 
 interface Props {
   lang: SiteLang;
@@ -52,6 +52,29 @@ const copy = ui[lang];
         <section class="soft-panel rounded-[1.8rem] p-6">
           <h2 class="text-xl font-semibold text-[var(--text-main)]">{copy.about.contactTitle}</h2>
           <p class="mt-3 text-[var(--text-muted)]">{copy.about.contactBody}</p>
+          <div class="mt-5 border-t border-[rgba(216,202,186,0.45)] pt-4">
+            <p class="text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--text-subtle)]">
+              Links
+            </p>
+            <div class="mt-2.5 flex flex-wrap gap-2">
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+              >
+                GitHub
+              </a>
+              <a
+                href={BILIBILI_URL}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+              >
+                Bilibili
+              </a>
+            </div>
+          </div>
         </section>
       </aside>
     </div>
