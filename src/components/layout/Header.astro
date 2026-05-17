@@ -6,7 +6,6 @@ import {
   getAboutPath,
   getCollectionPath,
   getHomePath,
-  getResumeHref,
   type SiteLang,
 } from "../../i18n/utils";
 
@@ -58,14 +57,6 @@ const isActive = (href: string) =>
       </nav>
 
       <div class="flex items-center gap-2 text-sm">
-        <a
-          href={getResumeHref(lang)}
-          target="_blank"
-          rel="noreferrer"
-          class="rounded-full border border-[rgba(216,202,186,0.7)] px-3 py-2 text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.35)] hover:text-[var(--text-main)]"
-        >
-          {copy.nav.resume}
-        </a>
         <LanguageSwitch href={translationHref} label={copy.nav.languageSwitch} />
       </div>
     </div>

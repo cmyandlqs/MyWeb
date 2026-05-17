@@ -1,40 +1,63 @@
 # MyWeb
 
-MyWeb 是一个面向 Agent / LLM 算法方向研究生的双语个人站点，用来长期沉淀：
+MyWeb 是一个双语个人网站项目，面向 Agent / LLM 算法方向的长期内容沉淀。  
+站点主要承载四类内容：
 
-* 技术文章
-* 项目案例
-* 研究笔记
-* 少量生活记录
+* Writing：技术文章
+* Projects：项目案例
+* Research：研究笔记
+* Life：少量生活记录
 
-当前实现基于：
+## 技术方案
+
+当前采用静态优先方案：
 
 * Astro
 * MDX
 * Tailwind CSS 4
-* 静态构建 / Cloudflare Pages 友好部署
+* GitHub
+* Cloudflare Pages
 
-## 目录
+第一版不引入数据库、后端 API、登录系统和 CMS。
 
-```text
-MyWeb/
-├── dev-docs/                # 项目说明与 PRD
-├── public/
-│   ├── images/              # 头像、封面、插图
-│   └── resume/              # 中英文简历 PDF
-├── src/
-│   ├── components/          # 页面与内容组件
-│   ├── content/             # writing / projects / research / life 内容
-│   ├── i18n/                # UI 文案与语言工具
-│   ├── layouts/             # 通用布局与详情页布局
-│   ├── lib/                 # 内容读取与双语映射
-│   ├── pages/               # 中英文页面路由
-│   ├── styles/              # 全局样式
-│   └── content.config.ts    # Astro 内容集合配置
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+## 项目情况
+
+当前仓库已经完成基础站点骨架，目标是先形成一个可持续维护、可继续填充内容的个人主页，而不是一次性展示页。
+
+相关详细文档见：
+
+* [dev-docs/MyWeb.md](D:\sikm\Desktop\PythonProject\MyWeb\dev-docs\MyWeb.md)
+* [dev-docs/内容发布流程.md](D:\sikm\Desktop\PythonProject\MyWeb\dev-docs\内容发布流程.md)
+
+## 开发进展
+
+已完成：
+
+* 中英文首页
+* 中英文 About 页面
+* Writing / Projects / Research / Life 四个内容频道
+* 四类内容的列表页与详情页
+* 双语切换机制
+* 基于 `translationKey` 的中英文内容配对规则
+* 首页精选内容与最新内容取数逻辑
+* 占位头像与封面图
+* `npm run build` 构建通过
+
+当前状态：
+
+* 项目已经可以继续迭代开发
+* 当前内容以示例内容和占位资源为主
+* 视觉和信息架构已经基本定型
+
+## 后续开发
+
+下一阶段优先项：
+
+1. 替换真实头像、项目封面
+2. 补充真实文章、项目、研究、生活内容
+3. 补充 GitHub / Email / 社交链接
+4. 增加 SEO 基础能力，如 sitemap、robots、OG 信息
+5. 继续打磨移动端和视觉细节
 
 ## 本地开发
 
@@ -43,7 +66,7 @@ npm install
 npm run dev
 ```
 
-默认开发地址：
+默认地址：
 
 ```text
 http://localhost:4321
@@ -61,48 +84,3 @@ npm run preview
 ```text
 dist/
 ```
-
-## 内容约定
-
-四类内容集合：
-
-* `writing`
-* `projects`
-* `research`
-* `life`
-
-所有内容都要求：
-
-* `lang`: `zh-CN` 或 `en`
-* `translationKey`: 跨语言稳定配对键
-* `routeSlug`: 页面路由 slug
-* `publishedAt`
-* `summary`
-
-首页取数规则：
-
-* `Featured Projects`：`featured: true`
-* `Latest Writing`：按 `publishedAt` 倒序取最新 3 篇
-* `Research Notes`：按 `publishedAt` 倒序取最新 2 篇
-* `Life Notes`：按 `publishedAt` 倒序取最新 2 篇
-
-## 当前状态
-
-当前仓库已经具备：
-
-* 中英文首页
-* 中英文 About
-* Writing / Projects / Research / Life 列表页
-* 四类内容详情页
-* 双语切换
-* 简历 PDF 入口
-* 示例内容与占位视觉素材
-* `npm run build` 通过
-
-后续建议优先补充：
-
-1. 真实头像与项目封面
-2. 正式中文 / 英文简历 PDF
-3. 真实 GitHub / Email / 社交链接
-4. 更完整的英文内容
-5. SEO 细节，如 sitemap、robots、OG 图

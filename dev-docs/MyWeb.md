@@ -68,7 +68,6 @@ MyWeb 第一版主要是：
 * 生活记录
 * 头像与图片展示
 * 中英文双语内容
-* 简历下载入口
 
 这些都可以通过静态站点完成。
 
@@ -393,7 +392,6 @@ export const ui = {
     navResearch: '研究',
     navLife: '生活',
     navAbout: '关于',
-    navResume: '简历',
     heroTitle: '你好，我是 sikm。',
     heroSubtitle: 'Agent / LLM 算法方向研究生',
     readWriting: '阅读文章',
@@ -405,7 +403,6 @@ export const ui = {
     navResearch: 'Research',
     navLife: 'Life',
     navAbout: 'About',
-    navResume: 'Resume',
     heroTitle: "Hi, I’m sikm.",
     heroSubtitle: 'Agent / LLM Algorithm Graduate Student',
     readWriting: 'Read Writing',
@@ -567,7 +564,6 @@ sikm
 研究
 生活
 关于
-简历 -> /resume/resume-zh.pdf
 EN
 ```
 
@@ -580,7 +576,6 @@ Projects
 Research
 Life
 About
-Resume -> /resume/resume-en.pdf
 中文
 ```
 
@@ -598,9 +593,6 @@ MyWeb/
       projects/
       research/
       life/
-    resume/
-      resume-zh.pdf
-      resume-en.pdf
     favicon.svg
   src/
     assets/
@@ -844,7 +836,7 @@ Cloudflare Pages 自动重新构建并上线。
 * 写博客
 * 记录论文
 * 展示项目
-* 沉淀简历素材
+* 沉淀个人品牌素材
 * 展示长期成长轨迹
 
 ### 3.2 访问者
@@ -879,16 +871,13 @@ Projects 项目
 Research 研究
 Life 生活
 About 关于
-Resume 简历资源入口
 ```
 
 说明：
 
-* `Resume` 在第一版中不是独立内容频道，不占用常规列表/详情页路由
-* 中文导航中的 `简历` 直接指向 `/resume/resume-zh.pdf`
-* 英文导航中的 `Resume` 直接指向 `/resume/resume-en.pdf`
-* 打开方式为新标签页打开 PDF，并保留浏览器下载能力
-* About 页面中也提供同一入口，避免导航和页面口径不一致
+* 第一版不提供简历页面，也不提供 PDF 下载入口
+* 站点定位是长期更新的个人主页，而不是静态简历页
+* 个人信息、项目经历和研究方向统一沉淀在 Home / About / Projects / Writing 等页面中
 
 ### 4.2 中文页面
 
@@ -1208,7 +1197,6 @@ Archived
 我写什么
 我的项目方向
 联系方式
-简历入口
 ```
 
 ### 必备信息
@@ -1218,7 +1206,6 @@ Archived
 * 技术兴趣
 * GitHub
 * Email
-* Resume
 * 可选：Bilibili / Zhihu / X / LinkedIn
 
 ---
@@ -1302,18 +1289,17 @@ ArticleCover.astro
 * 左侧 sikm logo
 * 中间或右侧导航
 * 右侧语言切换
-* Resume 链接
 
 中文导航：
 
 ```text
-文章 / 项目 / 研究 / 生活 / 关于 / 简历 / EN
+文章 / 项目 / 研究 / 生活 / 关于 / EN
 ```
 
 英文导航：
 
 ```text
-Writing / Projects / Research / Life / About / Resume / 中文
+Writing / Projects / Research / Life / About / 中文
 ```
 
 ### 6.3 卡片
@@ -1489,7 +1475,6 @@ About：
 * Research 页面
 * Life 页面
 * 更多文章和项目
-* 简历入口
 * SEO 基础优化
 
 ### V1.0：正式上线版
@@ -1532,8 +1517,8 @@ Astro + Tailwind CSS + MDX + TypeScript。部署方式为 GitHub + Cloudflare Pa
 - /en/about
 
 导航栏：
-中文：sikm / 文章 / 项目 / 研究 / 生活 / 关于 / 简历 / EN
-英文：sikm / Writing / Projects / Research / Life / About / Resume / 中文
+中文：sikm / 文章 / 项目 / 研究 / 生活 / 关于 / EN
+英文：sikm / Writing / Projects / Research / Life / About / 中文
 
 图片要求：
 支持头像、首页图片、项目封面、文章插图、项目详情页截图、研究图表和生活图片。请实现 Avatar、ImageWithCaption、ProjectCover、ArticleCover 等基础组件。图片第一版通过 public/images 目录管理，不做网页后台上传。

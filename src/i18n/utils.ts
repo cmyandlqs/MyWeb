@@ -23,9 +23,6 @@ export const getAboutPath = (lang: SiteLang) =>
 
 export const getHomePath = (lang: SiteLang) => (isEnglish(lang) ? "/en" : "/");
 
-export const getResumeHref = (lang: SiteLang) =>
-  isEnglish(lang) ? "/resume/resume-en.pdf" : "/resume/resume-zh.pdf";
-
 export const getOppositeLang = (lang: SiteLang): SiteLang =>
   isEnglish(lang) ? DEFAULT_LANG : "en";
 

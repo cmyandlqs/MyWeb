@@ -7,7 +7,6 @@ type Dictionary = {
     research: string;
     life: string;
     about: string;
-    resume: string;
     languageSwitch: string;
   };
   hero: {
@@ -75,7 +74,6 @@ export const ui: Record<SiteLang, Dictionary> = {
       research: "研究",
       life: "生活",
       about: "关于",
-      resume: "简历",
       languageSwitch: "EN",
     },
     hero: {
@@ -167,7 +165,6 @@ export const ui: Record<SiteLang, Dictionary> = {
       research: "Research",
       life: "Life",
       about: "About",
-      resume: "Resume",
       languageSwitch: "中文",
     },
     hero: {
