@@ -69,7 +69,7 @@ type Dictionary = {
 export const ui: Record<SiteLang, Dictionary> = {
   "zh-CN": {
     nav: {
-      writing: "文章",
+      writing: "博客",
       projects: "项目",
       research: "研究",
       life: "生活",
@@ -81,8 +81,8 @@ export const ui: Record<SiteLang, Dictionary> = {
       title: "你好，我是 sikm。",
       subtitle: "Agent / LLM 算法方向研究生",
       description:
-        "我在这里长期沉淀关于 Agent、评测、RAG、工具调用和工程实践的文章、项目与研究笔记，也保留少量真实生活记录。",
-      primaryCta: "阅读文章",
+        "我在这里长期沉淀关于 Agent、评测、RAG、工具调用、论文阅读和工程实践的博客与项目，也保留少量真实生活记录。",
+      primaryCta: "阅读博客",
       secondaryCta: "查看项目",
     },
     home: {
@@ -90,8 +90,8 @@ export const ui: Record<SiteLang, Dictionary> = {
       focusDescription: "几条正在持续推进的研究和工程主题。",
       projectsTitle: "精选项目",
       projectsDescription: "不是罗列仓库，而是展示问题、方法和结果。",
-      writingTitle: "最新文章",
-      writingDescription: "围绕 Agent 系统、评测、工具链与实现细节的写作沉淀。",
+      writingTitle: "最新博客",
+      writingDescription: "把技术文章、论文阅读、实验观察和工程思考统一放在一个入口。",
       researchTitle: "研究笔记",
       researchDescription: "论文阅读、实验观察和问题拆解。",
       lifeTitle: "生活记录",
@@ -99,9 +99,9 @@ export const ui: Record<SiteLang, Dictionary> = {
     },
     collections: {
       writing: {
-        title: "文章",
-        description: "围绕 Agent、LLM 系统、工程实践和设计思考的长期写作。",
-        empty: "文章内容还在整理中。",
+        title: "博客",
+        description: "围绕 Agent、LLM 系统、论文阅读、工程实践和设计思考的长期写作。",
+        empty: "博客内容还在整理中。",
       },
       projects: {
         title: "项目",
@@ -160,7 +160,7 @@ export const ui: Record<SiteLang, Dictionary> = {
   },
   en: {
     nav: {
-      writing: "Writing",
+      writing: "Blog",
       projects: "Projects",
       research: "Research",
       life: "Life",
@@ -172,8 +172,8 @@ export const ui: Record<SiteLang, Dictionary> = {
       title: "Hi, I’m sikm.",
       subtitle: "Agent / LLM Algorithm Graduate Student",
       description:
-        "This site is where I keep writing, project notes, research summaries, and a small amount of personal context around how I build AI systems.",
-      primaryCta: "Read writing",
+        "This site is where I keep blog notes, paper reading, project work, and a small amount of personal context around how I build AI systems.",
+      primaryCta: "Read blog",
       secondaryCta: "View projects",
     },
     home: {
@@ -181,8 +181,8 @@ export const ui: Record<SiteLang, Dictionary> = {
       focusDescription: "A few themes I am actively pushing forward.",
       projectsTitle: "Featured projects",
       projectsDescription: "Case studies that show problem framing, technical choices, and outcomes.",
-      writingTitle: "Latest writing",
-      writingDescription: "Ongoing notes on agent systems, evaluation, tooling, and implementation details.",
+      writingTitle: "Latest blog",
+      writingDescription: "Technical writing, paper notes, experiment observations, and engineering thinking in one stream.",
       researchTitle: "Research notes",
       researchDescription: "Paper reading, experiment observations, and question breakdowns.",
       lifeTitle: "Life notes",
@@ -190,9 +190,9 @@ export const ui: Record<SiteLang, Dictionary> = {
     },
     collections: {
       writing: {
-        title: "Writing",
-        description: "Long-form notes on agent systems, LLM engineering, and practical implementation.",
-        empty: "Writing entries are still being prepared.",
+        title: "Blog",
+        description: "Long-form notes on agent systems, LLM engineering, paper reading, and practical implementation.",
+        empty: "Blog entries are still being prepared.",
       },
       projects: {
         title: "Projects",

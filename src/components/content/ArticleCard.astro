@@ -44,9 +44,9 @@ const hasCover = variant === "default" && cover;
   )}
   <div class:list={[
     "flex flex-1 flex-col",
-    variant === "compact" ? "gap-2.5 p-4" : "gap-3.5 p-4 sm:p-5",
+    variant === "compact" ? "gap-2.5 p-3.5 sm:p-4" : "gap-3 p-4 sm:p-5",
   ]}>
-    <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)] sm:text-sm">
+    <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)]">
       <span>{formatDate(publishedAt, lang)}</span>
       {readTime && (
         <>
@@ -59,7 +59,7 @@ const hasCover = variant === "default" && cover;
       <h3 class:list={[
         "font-semibold tracking-tight text-[var(--text-main)]",
         variant === "compact"
-          ? "text-base sm:text-lg [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden"
+          ? "text-base [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden"
           : "text-lg sm:text-xl [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden",
       ]}>
         <a href={href} class="transition-colors group-hover:text-[var(--accent-muted)]">
@@ -68,7 +68,7 @@ const hasCover = variant === "default" && cover;
       </h3>
       <p class:list={[
         "text-sm text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden",
-        variant === "compact" ? "leading-6 [-webkit-line-clamp:2]" : "leading-6 [-webkit-line-clamp:2]",
+        variant === "compact" ? "leading-[1.45rem] [-webkit-line-clamp:2]" : "leading-6 [-webkit-line-clamp:2]",
       ]}>
         {summary}
       </p>

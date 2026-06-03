@@ -5,25 +5,41 @@ import {
   getCollectionPath,
 } from "../../i18n/utils";
 import {
-  getEntryPath,
-  getTranslatedEntry,
+  getBlogEntryPath,
+  getTranslatedBlogEntry,
+  type BlogEntry,
+  type BlogSourceCollection,
 } from "../../lib/content/translations";
 
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    "writing",
-    ({ data }) => !data.draft && data.lang === "zh-CN",
-  );
+  const [writingEntries, researchEntries] = await Promise.all([
+    getCollection(
+      "writing",
+      ({ data }) => !data.draft && data.lang === "zh-CN",
+    ),
+    getCollection(
+      "research",
+      ({ data }) => !data.draft && data.lang === "zh-CN",
+    ),
+  ]);
 
-  return entries.map((entry) => ({
+  const entries = [
+    ...writingEntries.map((entry) => ({ entry, sourceCollection: "writing" as const })),
+    ...researchEntries.map((entry) => ({ entry, sourceCollection: "research" as const })),
+  ];
+
+  return entries.map(({ entry, sourceCollection }) => ({
     params: { slug: entry.data.routeSlug },
-    props: { entry },
+    props: { entry, sourceCollection },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, sourceCollection } = Astro.props as {
+  entry: BlogEntry;
+  sourceCollection: BlogSourceCollection;
+};
 const { Content } = await render(entry);
-const translation = await getTranslatedEntry("writing", entry, "en");
+const translation = await getTranslatedBlogEntry(sourceCollection, entry, "en");
 ---
 
 <ArticleLayout
@@ -31,7 +47,7 @@ const translation = await getTranslatedEntry("writing", entry, "en");
   description={entry.data.summary}
   lang="zh-CN"
   currentPath={Astro.url.pathname}
-  translationHref={translation ? getEntryPath("writing", "en", translation) : getCollectionPath("writing", "en")}
+  translationHref={translation ? getBlogEntryPath("en", translation) : getCollectionPath("writing", "en")}
   collection="writing"
   publishedAt={entry.data.publishedAt}
   updatedAt={entry.data.updatedAt}

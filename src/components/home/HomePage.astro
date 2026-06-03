@@ -9,16 +9,17 @@ import { ui } from "../../i18n/ui";
 import {
   BILIBILI_URL,
   formatDate,
-  GITHUB_HANDLE,
   GITHUB_URL,
   getCollectionPath,
   PROFILE_AVATAR_SRC,
   type SiteLang,
 } from "../../i18n/utils";
 import {
-  getEntryPath,
+  getBlogEntryPath,
   getFeaturedProjects,
+  getLatestBlogEntries,
   getLatestEntries,
+  getEntryPath,
 } from "../../lib/content/translations";
 
 interface Props {
@@ -27,39 +28,36 @@ interface Props {
 
 const { lang } = Astro.props;
 const copy = ui[lang];
-const [featuredProjects, latestWriting, latestResearch, latestLife] = await Promise.all([
+const [featuredProjects, latestBlog, latestLife] = await Promise.all([
   getFeaturedProjects(lang),
-  getLatestEntries("writing", lang, 3),
-  getLatestEntries("research", lang, 3),
+  getLatestBlogEntries(lang, 6),
   getLatestEntries("life", lang, 3),
 ]);
-const primaryResearch = latestResearch[0];
-const primaryLife = latestLife[0];
-const secondaryResearch = latestResearch.slice(1);
-const secondaryLife = latestLife.slice(1);
-const heroWritingPreview = latestWriting.slice(0, 2);
+const primaryBlog = latestBlog[0];
+const secondaryBlog = latestBlog.slice(1, 6);
+const heroBlogPreview = latestBlog.slice(0, 2);
 ---
 
-<section class="pb-2 pt-8 sm:pt-10 lg:pb-3 lg:pt-8">
+<section class="pb-2 pt-7 sm:pt-8 lg:pb-2 lg:pt-7">
   <Container>
-    <div class="grid gap-6 lg:grid-cols-[1.22fr_0.78fr] lg:items-start xl:gap-8">
-      <div class="max-w-[42rem] pt-2">
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start xl:gap-10">
+      <div class="pt-2">
         <p class="eyebrow">{copy.hero.eyebrow}</p>
-        <h1 class="mt-3 text-[3.15rem] font-semibold tracking-tight text-[var(--text-main)] sm:text-[3.45rem] lg:text-[3.65rem]">
+        <h1 class="mt-3 max-w-[46rem] text-[3rem] font-semibold tracking-tight text-[var(--text-main)] sm:text-[3.35rem] lg:text-[3.55rem]">
           {copy.hero.title}
         </h1>
         <p class="mt-3.5 text-[0.98rem] text-[var(--text-muted)] sm:text-[1.04rem]">{copy.hero.subtitle}</p>
-        <p class="mt-4 max-w-[38rem] text-sm leading-[1.65rem] text-[var(--text-muted)] sm:text-[0.98rem]">
+        <p class="mt-3 max-w-[44rem] text-sm leading-[1.6rem] text-[var(--text-muted)] sm:text-[0.98rem]">
           {copy.hero.description}
         </p>
-        <div class="mt-5 flex flex-wrap gap-2.5">
+        <div class="mt-4 flex flex-wrap gap-2.5">
           <Button href={getCollectionPath("writing", lang)}>{copy.hero.primaryCta}</Button>
           <Button href={getCollectionPath("projects", lang)} variant="secondary">
             {copy.hero.secondaryCta}
           </Button>
         </div>
 
-        <div class="mt-6 max-w-[40rem]">
+        <div class="mt-5">
           <div class="soft-panel rounded-[1.35rem] p-4 sm:p-[1.125rem]">
             <div class="flex items-center justify-between gap-3">
               <div>
@@ -77,9 +75,9 @@ const heroWritingPreview = latestWriting.slice(0, 2);
             </div>
 
             <div class="mt-4 grid gap-3 md:grid-cols-2">
-              {heroWritingPreview.map((entry) => (
+              {heroBlogPreview.map((entry) => (
                 <a
-                  href={getEntryPath("writing", lang, entry)}
+                  href={getBlogEntryPath(lang, entry)}
                   class="rounded-[1rem] border border-[rgba(216,202,186,0.62)] bg-[rgba(255,253,248,0.74)] p-3.5 transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.28)]"
                 >
                   <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)]">
@@ -112,7 +110,7 @@ const heroWritingPreview = latestWriting.slice(0, 2);
         </div>
       </div>
 
-      <div class="lg:max-w-[19rem] lg:justify-self-end">
+      <div class="lg:justify-self-end">
         <div class="soft-panel overflow-hidden rounded-[1.5rem] p-3">
           <div class="rounded-[1.15rem] border border-[rgba(216,202,186,0.65)] bg-[rgba(255,250,242,0.74)] p-3">
             <img
@@ -166,85 +164,60 @@ const heroWritingPreview = latestWriting.slice(0, 2);
   </Container>
 </section>
 
-<section class="section-band py-8 lg:py-10">
+<section class="section-band py-7 lg:py-8">
   <Container>
-    <SectionTitle
-      eyebrow={copy.labels.featured}
-      title={copy.home.projectsTitle}
-      description={copy.home.projectsDescription}
-    />
-    <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-      {featuredProjects.map((entry) => (
-        <ProjectCard
-          href={getEntryPath("projects", lang, entry)}
-          title={entry.data.title}
-          summary={entry.data.summary}
-          status={entry.data.status}
-          stack={entry.data.stack}
-          cover={entry.data.cover}
-          coverAlt={entry.data.coverAlt}
-          repoUrl={entry.data.repoUrl}
-          demoUrl={entry.data.demoUrl}
-          variant="compact"
+    <div class="grid gap-7 xl:grid-cols-[0.95fr_1.35fr] xl:items-start">
+      <div>
+        <SectionTitle
+          eyebrow={copy.labels.featured}
+          title={copy.home.projectsTitle}
+          description={copy.home.projectsDescription}
         />
-      ))}
-    </div>
-  </Container>
-</section>
+        <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-1">
+          {featuredProjects.map((entry) => (
+            <ProjectCard
+              href={getEntryPath("projects", lang, entry)}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              status={entry.data.status}
+              stack={entry.data.stack}
+              cover={entry.data.cover}
+              coverAlt={entry.data.coverAlt}
+              repoUrl={entry.data.repoUrl}
+              demoUrl={entry.data.demoUrl}
+              variant="compact"
+            />
+          ))}
+        </div>
+      </div>
 
-<section class="section-band py-8 lg:py-10">
-  <Container>
-    <SectionTitle
-      eyebrow={copy.labels.latest}
-      title={copy.home.writingTitle}
-      description={copy.home.writingDescription}
-    />
-    <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-      {latestWriting.map((entry) => (
-        <ArticleCard
-          href={getEntryPath("writing", lang, entry)}
-          title={entry.data.title}
-          summary={entry.data.summary}
-          publishedAt={entry.data.publishedAt}
-          tags={entry.data.tags}
-          readTime={entry.data.readTime}
-          lang={lang}
-          cover={entry.data.cover}
-          coverAlt={entry.data.coverAlt}
-        />
-      ))}
-    </div>
-  </Container>
-</section>
-
-<section class="section-band py-8 lg:py-10">
-  <Container>
-    <div class="grid gap-6 lg:grid-cols-2">
-      <div class="space-y-5">
+      <div>
         <SectionTitle
           eyebrow={copy.labels.latest}
-          title={copy.home.researchTitle}
-          description={copy.home.researchDescription}
+          title={copy.home.writingTitle}
+          description={copy.home.writingDescription}
         />
-        <div class="space-y-3">
+        <div class="mt-5 grid gap-4 lg:grid-cols-2">
           {
-            primaryResearch && (
-              <ArticleCard
-                href={getEntryPath("research", lang, primaryResearch)}
-                title={primaryResearch.data.title}
-                summary={primaryResearch.data.summary}
-                publishedAt={primaryResearch.data.publishedAt}
-                tags={primaryResearch.data.tags}
-                readTime={primaryResearch.data.readTime}
-                lang={lang}
-                cover={primaryResearch.data.cover}
-                coverAlt={primaryResearch.data.coverAlt}
-              />
+            primaryBlog && (
+              <div class="lg:row-span-2">
+                <ArticleCard
+                  href={getBlogEntryPath(lang, primaryBlog)}
+                  title={primaryBlog.data.title}
+                  summary={primaryBlog.data.summary}
+                  publishedAt={primaryBlog.data.publishedAt}
+                  tags={primaryBlog.data.tags}
+                  readTime={primaryBlog.data.readTime}
+                  lang={lang}
+                  cover={primaryBlog.data.cover}
+                  coverAlt={primaryBlog.data.coverAlt}
+                />
+              </div>
             )
           }
-          {secondaryResearch.map((entry) => (
+          {secondaryBlog.map((entry) => (
             <ArticleCard
-              href={getEntryPath("research", lang, entry)}
+              href={getBlogEntryPath(lang, entry)}
               title={entry.data.title}
               summary={entry.data.summary}
               publishedAt={entry.data.publishedAt}
@@ -256,30 +229,17 @@ const heroWritingPreview = latestWriting.slice(0, 2);
           ))}
         </div>
       </div>
+    </div>
 
-      <div class="space-y-5">
+    {latestLife.length > 0 && (
+      <div class="mt-8 border-t border-[rgba(216,202,186,0.45)] pt-7">
         <SectionTitle
           eyebrow={copy.labels.latest}
           title={copy.home.lifeTitle}
           description={copy.home.lifeDescription}
         />
-        <div class="space-y-3">
-          {
-            primaryLife && (
-              <ArticleCard
-                href={getEntryPath("life", lang, primaryLife)}
-                title={primaryLife.data.title}
-                summary={primaryLife.data.summary}
-                publishedAt={primaryLife.data.publishedAt}
-                tags={primaryLife.data.tags}
-                readTime={primaryLife.data.readTime}
-                lang={lang}
-                cover={primaryLife.data.cover}
-                coverAlt={primaryLife.data.coverAlt}
-              />
-            )
-          }
-          {secondaryLife.map((entry) => (
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          {latestLife.map((entry) => (
             <ArticleCard
               href={getEntryPath("life", lang, entry)}
               title={entry.data.title}
@@ -288,11 +248,13 @@ const heroWritingPreview = latestWriting.slice(0, 2);
               tags={entry.data.tags}
               readTime={entry.data.readTime}
               lang={lang}
+              cover={entry.data.cover}
+              coverAlt={entry.data.coverAlt}
               variant="compact"
             />
           ))}
         </div>
       </div>
-    </div>
+    )}
   </Container>
 </section>

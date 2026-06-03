@@ -4,7 +4,12 @@ import ProjectCard from "./ProjectCard.astro";
 import Container from "../layout/Container.astro";
 import SectionTitle from "../ui/SectionTitle.astro";
 import { ui } from "../../i18n/ui";
-import { getEntryPath, getPublishedEntries } from "../../lib/content/translations";
+import {
+  getBlogEntryPath,
+  getEntryPath,
+  getPublishedBlogEntries,
+  getPublishedEntries,
+} from "../../lib/content/translations";
 import { type SiteCollection, type SiteLang } from "../../i18n/utils";
 
 interface Props {
@@ -14,7 +19,9 @@ interface Props {
 
 const { collection, lang } = Astro.props;
 const copy = ui[lang];
-const entries = await getPublishedEntries(collection, lang);
+const entries = collection === "writing"
+  ? await getPublishedBlogEntries(lang)
+  : await getPublishedEntries(collection, lang);
 ---
 
 <section class="pb-20 pt-14">
@@ -47,10 +54,10 @@ const entries = await getPublishedEntries(collection, lang);
           ))}
         </div>
       ) : (
-        <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <div class="mt-8 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
           {entries.map((entry) => (
             <ArticleCard
-              href={getEntryPath(collection, lang, entry)}
+              href={collection === "writing" ? getBlogEntryPath(lang, entry) : getEntryPath(collection, lang, entry)}
               title={entry.data.title}
               summary={entry.data.summary}
               publishedAt={entry.data.publishedAt}

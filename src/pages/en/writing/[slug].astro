@@ -3,25 +3,41 @@ import { getCollection, render } from "astro:content";
 import ArticleLayout from "../../../layouts/ArticleLayout.astro";
 import { getCollectionPath } from "../../../i18n/utils";
 import {
-  getEntryPath,
-  getTranslatedEntry,
+  getBlogEntryPath,
+  getTranslatedBlogEntry,
+  type BlogEntry,
+  type BlogSourceCollection,
 } from "../../../lib/content/translations";
 
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    "writing",
-    ({ data }) => !data.draft && data.lang === "en",
-  );
+  const [writingEntries, researchEntries] = await Promise.all([
+    getCollection(
+      "writing",
+      ({ data }) => !data.draft && data.lang === "en",
+    ),
+    getCollection(
+      "research",
+      ({ data }) => !data.draft && data.lang === "en",
+    ),
+  ]);
 
-  return entries.map((entry) => ({
+  const entries = [
+    ...writingEntries.map((entry) => ({ entry, sourceCollection: "writing" as const })),
+    ...researchEntries.map((entry) => ({ entry, sourceCollection: "research" as const })),
+  ];
+
+  return entries.map(({ entry, sourceCollection }) => ({
     params: { slug: entry.data.routeSlug },
-    props: { entry },
+    props: { entry, sourceCollection },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, sourceCollection } = Astro.props as {
+  entry: BlogEntry;
+  sourceCollection: BlogSourceCollection;
+};
 const { Content } = await render(entry);
-const translation = await getTranslatedEntry("writing", entry, "zh-CN");
+const translation = await getTranslatedBlogEntry(sourceCollection, entry, "zh-CN");
 ---
 
 <ArticleLayout
@@ -29,7 +45,7 @@ const translation = await getTranslatedEntry("writing", entry, "zh-CN");
   description={entry.data.summary}
   lang="en"
   currentPath={Astro.url.pathname}
-  translationHref={translation ? getEntryPath("writing", "zh-CN", translation) : getCollectionPath("writing", "zh-CN")}
+  translationHref={translation ? getBlogEntryPath("zh-CN", translation) : getCollectionPath("writing", "zh-CN")}
   collection="writing"
   publishedAt={entry.data.publishedAt}
   updatedAt={entry.data.updatedAt}

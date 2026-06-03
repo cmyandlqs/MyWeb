@@ -43,7 +43,7 @@ const compact = variant === "compact";
         alt={coverAlt}
         class:list={[
           "w-full object-cover",
-          compact ? "h-28 sm:h-[7.5rem]" : "h-32 sm:h-36",
+          compact ? "h-24 sm:h-28" : "h-32 sm:h-36",
         ]}
         loading="lazy"
       />
@@ -51,12 +51,12 @@ const compact = variant === "compact";
   )}
   <div class:list={[
     "flex flex-1 flex-col",
-    compact ? "gap-3 p-4" : "gap-3.5 p-4 sm:p-5",
+    compact ? "gap-2.5 p-3.5 sm:p-4" : "gap-3.5 p-4 sm:p-5",
   ]}>
     <div class="flex items-center justify-between gap-3">
       <h3 class:list={[
         "font-semibold tracking-tight text-[var(--text-main)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden",
-        compact ? "text-base sm:text-lg" : "text-lg sm:text-xl",
+        compact ? "text-base" : "text-lg sm:text-xl",
       ]}>
         <a href={href} class="transition-colors group-hover:text-[var(--accent-muted)]">
           {title}
@@ -64,7 +64,7 @@ const compact = variant === "compact";
       </h3>
       <Badge tone="accent" compact>{status}</Badge>
     </div>
-    <p class="text-sm leading-6 text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
+    <p class="text-sm leading-[1.45rem] text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
       {summary}
     </p>
     <div class="mt-auto flex flex-col gap-2.5">
