@@ -1,17 +1,21 @@
 ---
 import Badge from "../ui/Badge.astro";
+import { formatDate, type SiteLang } from "../../i18n/utils";
 
 interface Props {
   href: string;
   title: string;
   summary: string;
-  status: string;
+  status?: string;
   stack: string[];
+  publishedAt?: string;
+  lang?: SiteLang;
   cover?: string;
   coverAlt?: string;
   repoUrl?: string;
   demoUrl?: string;
-  variant?: "default" | "compact";
+  showStatus?: boolean;
+  variant?: "default" | "compact" | "horizontal";
 }
 
 const {
@@ -20,30 +24,42 @@ const {
   summary,
   status,
   stack,
+  publishedAt,
+  lang = "zh-CN",
   cover,
   coverAlt = "",
   repoUrl,
   demoUrl,
+  showStatus = true,
   variant = "default",
 } = Astro.props;
 
 const visibleStack = stack.slice(0, 3);
 const hiddenStackCount = Math.max(stack.length - visibleStack.length, 0);
 const compact = variant === "compact";
+const horizontal = variant === "horizontal";
 ---
 
 <article class:list={[
-  "group flex h-full flex-col overflow-hidden border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.94)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
-  compact ? "rounded-[1.2rem]" : "rounded-[1.35rem]",
+  "group h-full overflow-hidden border border-[rgba(216,202,186,0.78)] bg-[rgba(255,253,248,0.94)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
+  horizontal ? "grid md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]" : "flex flex-col",
+  horizontal ? "rounded-[1.25rem]" : compact ? "rounded-[1.2rem]" : "rounded-[1.35rem]",
 ]}>
   {cover && (
-    <a href={href} class="border-b border-[rgba(216,202,186,0.58)]">
+    <a
+      href={href}
+      class:list={[
+        horizontal
+          ? "border-b border-[rgba(216,202,186,0.58)] md:border-b-0 md:border-r"
+          : "border-b border-[rgba(216,202,186,0.58)]",
+      ]}
+    >
       <img
         src={cover}
         alt={coverAlt}
         class:list={[
           "w-full object-cover",
-          compact ? "h-24 sm:h-28" : "h-32 sm:h-36",
+          horizontal ? "h-36 md:h-full md:min-h-[10.5rem]" : compact ? "h-24 sm:h-28" : "h-32 sm:h-36",
         ]}
         loading="lazy"
       />
@@ -51,18 +67,23 @@ const compact = variant === "compact";
   )}
   <div class:list={[
     "flex flex-1 flex-col",
-    compact ? "gap-2.5 p-3.5 sm:p-4" : "gap-3.5 p-4 sm:p-5",
+    compact ? "gap-2.5 p-3.5 sm:p-4" : horizontal ? "gap-3 p-4 sm:p-5" : "gap-3.5 p-4 sm:p-5",
   ]}>
+    {publishedAt && (
+      <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)]">
+        <span>{formatDate(publishedAt, lang)}</span>
+      </div>
+    )}
     <div class="flex items-center justify-between gap-3">
       <h3 class:list={[
         "font-semibold tracking-tight text-[var(--text-main)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden",
-        compact ? "text-base" : "text-lg sm:text-xl",
+        compact ? "text-base" : horizontal ? "text-lg" : "text-lg sm:text-xl",
       ]}>
         <a href={href} class="transition-colors group-hover:text-[var(--accent-muted)]">
           {title}
         </a>
       </h3>
-      <Badge tone="accent" compact>{status}</Badge>
+      {showStatus && status && <Badge tone="accent" compact>{status}</Badge>}
     </div>
     <p class="text-sm leading-[1.45rem] text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
       {summary}

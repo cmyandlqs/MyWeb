@@ -15,10 +15,11 @@ const {
 
 const className =
   variant === "primary"
-    ? "inline-flex min-w-[6.75rem] items-center justify-center rounded-full bg-[var(--text-main)] px-[1.125rem] py-2.5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-[var(--accent-muted)]"
+    ? "inline-flex min-w-[6.75rem] items-center justify-center rounded-full bg-[var(--text-main)] px-[1.125rem] py-2.5 text-sm font-medium !text-[#fffdf8] transition hover:-translate-y-0.5 hover:bg-[#3b342e]"
     : "inline-flex min-w-[6.75rem] items-center justify-center rounded-full border border-[rgba(216,202,186,0.85)] bg-white/70 px-[1.125rem] py-2.5 text-sm font-medium text-[var(--text-main)] transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.35)]";
+const style = variant === "primary" ? "color: #fffdf8;" : undefined;
 ---
 
-<a class={className} href={href} target={target} rel={rel}>
+<a class={className} style={style} href={href} target={target} rel={rel}>
   <slot />
 </a>

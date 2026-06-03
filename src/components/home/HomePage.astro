@@ -8,7 +8,6 @@ import ProjectCard from "../content/ProjectCard.astro";
 import { ui } from "../../i18n/ui";
 import {
   BILIBILI_URL,
-  formatDate,
   GITHUB_URL,
   getCollectionPath,
   PROFILE_AVATAR_SRC,
@@ -16,7 +15,6 @@ import {
 } from "../../i18n/utils";
 import {
   getBlogEntryPath,
-  getFeaturedProjects,
   getLatestBlogEntries,
   getLatestEntries,
   getEntryPath,
@@ -28,19 +26,21 @@ interface Props {
 
 const { lang } = Astro.props;
 const copy = ui[lang];
-const [featuredProjects, latestBlog, latestLife] = await Promise.all([
-  getFeaturedProjects(lang),
+const moreLabel = lang === "zh-CN" ? "更多" : "More";
+const [latestProjects, latestBlog, latestLife] = await Promise.all([
+  getLatestEntries("projects", lang, 4),
   getLatestBlogEntries(lang, 6),
   getLatestEntries("life", lang, 3),
 ]);
 const primaryBlog = latestBlog[0];
-const secondaryBlog = latestBlog.slice(1, 6);
-const heroBlogPreview = latestBlog.slice(0, 2);
+const secondaryBlog = latestBlog.slice(1, 5);
+const primaryProject = latestProjects[0];
+const secondaryProjects = latestProjects.slice(1, 4);
 ---
 
-<section class="pb-2 pt-7 sm:pt-8 lg:pb-2 lg:pt-7">
+<section class="pb-4 pt-7 sm:pt-8 lg:pb-6 lg:pt-7">
   <Container>
-    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start xl:gap-10">
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start xl:gap-10">
       <div class="pt-2">
         <p class="eyebrow">{copy.hero.eyebrow}</p>
         <h1 class="mt-3 max-w-[46rem] text-[3rem] font-semibold tracking-tight text-[var(--text-main)] sm:text-[3.35rem] lg:text-[3.55rem]">
@@ -56,94 +56,42 @@ const heroBlogPreview = latestBlog.slice(0, 2);
             {copy.hero.secondaryCta}
           </Button>
         </div>
-
-        <div class="mt-5">
-          <div class="soft-panel rounded-[1.35rem] p-4 sm:p-[1.125rem]">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <p class="eyebrow">{copy.labels.latest}</p>
-                <h2 class="mt-2 text-base font-semibold text-[var(--text-main)] sm:text-lg">
-                  {copy.home.writingTitle}
-                </h2>
-              </div>
-              <a
-                href={getCollectionPath("writing", lang)}
-                class="text-xs font-medium text-[var(--text-muted)] transition hover:text-[var(--text-main)]"
-              >
-                {copy.hero.primaryCta}
-              </a>
-            </div>
-
-            <div class="mt-4 grid gap-3 md:grid-cols-2">
-              {heroBlogPreview.map((entry) => (
-                <a
-                  href={getBlogEntryPath(lang, entry)}
-                  class="rounded-[1rem] border border-[rgba(216,202,186,0.62)] bg-[rgba(255,253,248,0.74)] p-3.5 transition hover:-translate-y-0.5 hover:border-[rgba(200,111,74,0.28)]"
-                >
-                  <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--text-subtle)]">
-                    <span>{formatDate(entry.data.publishedAt, lang)}</span>
-                    {entry.data.readTime && (
-                      <>
-                        <span>·</span>
-                        <span>{entry.data.readTime}</span>
-                      </>
-                    )}
-                  </div>
-                  <h3 class="mt-2 text-sm font-semibold leading-6 text-[var(--text-main)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
-                    {entry.data.title}
-                  </h3>
-                  <p class="mt-1.5 text-sm leading-6 text-[var(--text-muted)] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden">
-                    {entry.data.summary}
-                  </p>
-                  {entry.data.tags.length > 0 && (
-                    <div class="mt-3 flex flex-wrap gap-2">
-                      {entry.data.tags.slice(0, 2).map((tag) => (
-                        <Badge compact>{tag}</Badge>
-                      ))}
-                      {entry.data.tags.length > 2 && <Badge compact>{`+${entry.data.tags.length - 2}`}</Badge>}
-                    </div>
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="lg:justify-self-end">
-        <div class="soft-panel overflow-hidden rounded-[1.5rem] p-3">
-          <div class="rounded-[1.15rem] border border-[rgba(216,202,186,0.65)] bg-[rgba(255,250,242,0.74)] p-3">
+        <div class="soft-panel overflow-hidden rounded-[1.35rem] p-2.5">
+          <div class="rounded-[1rem] border border-[rgba(216,202,186,0.65)] bg-[rgba(255,250,242,0.74)] p-2">
             <img
               src={PROFILE_AVATAR_SRC}
               alt="sikm avatar"
-              class="aspect-square w-full rounded-[1rem] border border-[rgba(216,202,186,0.58)] object-cover"
+              class="aspect-[4/3] w-full rounded-[0.85rem] border border-[rgba(216,202,186,0.58)] object-cover lg:aspect-square"
               loading="lazy"
             />
           </div>
 
-          <div class="mt-3 rounded-[1.15rem] border border-[rgba(216,202,186,0.52)] bg-[rgba(255,253,248,0.76)] p-4">
+          <div class="mt-2.5 rounded-[1rem] border border-[rgba(216,202,186,0.52)] bg-[rgba(255,253,248,0.76)] p-3.5">
             <p class="eyebrow">{copy.labels.currentFocus}</p>
-            <h2 class="mt-2.5 text-lg font-semibold text-[var(--text-main)] sm:text-[1.2rem]">
+            <h2 class="mt-1.5 text-base font-semibold text-[var(--text-main)]">
               {copy.home.focusTitle}
             </h2>
-            <p class="mt-2 text-sm leading-[1.4rem] text-[var(--text-muted)]">{copy.home.focusDescription}</p>
-            <div class="mt-3 flex flex-wrap gap-2">
-              {copy.currentFocus.slice(0, 3).map((item) => (
+            <p class="mt-1.5 text-xs leading-5 text-[var(--text-muted)]">{copy.home.focusDescription}</p>
+            <div class="mt-2.5 flex flex-wrap gap-1.5">
+              {copy.currentFocus.slice(0, 2).map((item) => (
                 <Badge compact>{item}</Badge>
               ))}
-              {copy.currentFocus.length > 3 && <Badge compact>{`+${copy.currentFocus.length - 3}`}</Badge>}
+              {copy.currentFocus.length > 2 && <Badge compact>{`+${copy.currentFocus.length - 2}`}</Badge>}
             </div>
 
-            <div class="mt-4 border-t border-[rgba(216,202,186,0.4)] pt-3">
+            <div class="mt-3 border-t border-[rgba(216,202,186,0.4)] pt-2.5">
               <p class="text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--text-subtle)]">
                 Links
               </p>
-              <div class="mt-2.5 flex flex-wrap gap-2">
+              <div class="mt-2 flex flex-wrap gap-1.5">
                 <a
                   href={GITHUB_URL}
                   target="_blank"
                   rel="noreferrer"
-                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-2.5 py-1 text-xs font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
                 >
                   GitHub
                 </a>
@@ -151,7 +99,7 @@ const heroBlogPreview = latestBlog.slice(0, 2);
                   href={BILIBILI_URL}
                   target="_blank"
                   rel="noreferrer"
-                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-3 py-1.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+                  class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-2.5 py-1 text-xs font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
                 >
                   Bilibili
                 </a>
@@ -166,64 +114,95 @@ const heroBlogPreview = latestBlog.slice(0, 2);
 
 <section class="section-band py-7 lg:py-8">
   <Container>
-    <div class="grid gap-7 xl:grid-cols-[0.95fr_1.35fr] xl:items-start">
-      <div>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionTitle
+        title={copy.collections.writing.title}
+        description={copy.home.writingDescription}
+      />
+      <a
+        href={getCollectionPath("writing", lang)}
+        class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.78)] px-4 py-2 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+      >
+        {moreLabel}
+      </a>
+    </div>
+
+    <div class="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.35fr)] lg:items-stretch">
+      {
+        primaryBlog && (
+          <ArticleCard
+            href={getBlogEntryPath(lang, primaryBlog)}
+            title={primaryBlog.data.title}
+            summary={primaryBlog.data.summary}
+            publishedAt={primaryBlog.data.publishedAt}
+            tags={primaryBlog.data.tags}
+            readTime={primaryBlog.data.readTime}
+            lang={lang}
+            cover={primaryBlog.data.cover}
+            coverAlt={primaryBlog.data.coverAlt}
+          />
+        )
+      }
+      <div class="grid gap-4 sm:grid-cols-2">
+        {secondaryBlog.map((entry) => (
+          <ArticleCard
+            href={getBlogEntryPath(lang, entry)}
+            title={entry.data.title}
+            summary={entry.data.summary}
+            publishedAt={entry.data.publishedAt}
+            tags={entry.data.tags}
+            readTime={entry.data.readTime}
+            lang={lang}
+            variant="compact"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-8 border-t border-[rgba(216,202,186,0.45)] pt-7">
+      <div class="flex flex-wrap items-end justify-between gap-4">
         <SectionTitle
-          eyebrow={copy.labels.featured}
-          title={copy.home.projectsTitle}
+          title={copy.collections.projects.title}
           description={copy.home.projectsDescription}
         />
-        <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-1">
-          {featuredProjects.map((entry) => (
+        <a
+          href={getCollectionPath("projects", lang)}
+          class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.78)] px-4 py-2 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
+        >
+          {moreLabel}
+        </a>
+      </div>
+      <div class="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.35fr)] lg:items-stretch">
+        {
+          primaryProject && (
+            <ProjectCard
+              href={getEntryPath("projects", lang, primaryProject)}
+              title={primaryProject.data.title}
+              summary={primaryProject.data.summary}
+              stack={primaryProject.data.stack}
+              publishedAt={primaryProject.data.publishedAt}
+              lang={lang}
+              cover={primaryProject.data.cover}
+              coverAlt={primaryProject.data.coverAlt}
+              repoUrl={primaryProject.data.repoUrl}
+              demoUrl={primaryProject.data.demoUrl}
+              showStatus={false}
+              variant="horizontal"
+            />
+          )
+        }
+        <div class="grid gap-4 sm:grid-cols-2">
+          {secondaryProjects.map((entry) => (
             <ProjectCard
               href={getEntryPath("projects", lang, entry)}
               title={entry.data.title}
               summary={entry.data.summary}
-              status={entry.data.status}
               stack={entry.data.stack}
-              cover={entry.data.cover}
-              coverAlt={entry.data.coverAlt}
+              publishedAt={entry.data.publishedAt}
+              lang={lang}
               repoUrl={entry.data.repoUrl}
               demoUrl={entry.data.demoUrl}
-              variant="compact"
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <SectionTitle
-          eyebrow={copy.labels.latest}
-          title={copy.home.writingTitle}
-          description={copy.home.writingDescription}
-        />
-        <div class="mt-5 grid gap-4 lg:grid-cols-2">
-          {
-            primaryBlog && (
-              <div class="lg:row-span-2">
-                <ArticleCard
-                  href={getBlogEntryPath(lang, primaryBlog)}
-                  title={primaryBlog.data.title}
-                  summary={primaryBlog.data.summary}
-                  publishedAt={primaryBlog.data.publishedAt}
-                  tags={primaryBlog.data.tags}
-                  readTime={primaryBlog.data.readTime}
-                  lang={lang}
-                  cover={primaryBlog.data.cover}
-                  coverAlt={primaryBlog.data.coverAlt}
-                />
-              </div>
-            )
-          }
-          {secondaryBlog.map((entry) => (
-            <ArticleCard
-              href={getBlogEntryPath(lang, entry)}
-              title={entry.data.title}
-              summary={entry.data.summary}
-              publishedAt={entry.data.publishedAt}
-              tags={entry.data.tags}
-              readTime={entry.data.readTime}
-              lang={lang}
+              showStatus={false}
               variant="compact"
             />
           ))}
