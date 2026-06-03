@@ -46,6 +46,11 @@ type Dictionary = {
     projectStatus: string;
     stack: string;
     links: string;
+    more: string;
+    github: string;
+    bilibili: string;
+    demo: string;
+    caseStudy: string;
     noTranslation: string;
     backToList: string;
   };
@@ -128,6 +133,11 @@ export const ui: Record<SiteLang, Dictionary> = {
       projectStatus: "项目状态",
       stack: "技术栈",
       links: "相关链接",
+      more: "更多",
+      github: "GitHub",
+      bilibili: "Bilibili",
+      demo: "Demo",
+      caseStudy: "案例分析",
       noTranslation: "该内容暂无对应英文版本，已回退到列表页。",
       backToList: "返回列表",
     },
@@ -151,11 +161,7 @@ export const ui: Record<SiteLang, Dictionary> = {
     },
     footer: "Built with Astro, MDX, Tailwind and a bias toward clear thinking.",
     currentFocus: [
-      "LLM Agent Systems",
-      "Multi-Agent Evaluation",
-      "Tool Use Reliability",
-      "RAG / MCP / Sandbox",
-      "Object Detection Notes",
+      "LLM","Agent","RL"
     ],
   },
   en: {
@@ -219,6 +225,11 @@ export const ui: Record<SiteLang, Dictionary> = {
       projectStatus: "Status",
       stack: "Stack",
       links: "Links",
+      more: "More",
+      github: "GitHub",
+      bilibili: "Bilibili",
+      demo: "Demo",
+      caseStudy: "Case Study",
       noTranslation: "This entry has no translation yet, so the switch falls back to the list page.",
       backToList: "Back to list",
     },
@@ -242,11 +253,9 @@ export const ui: Record<SiteLang, Dictionary> = {
     },
     footer: "Built with Astro, MDX, Tailwind, and a preference for calm engineering.",
     currentFocus: [
-      "LLM Agent Systems",
-      "Multi-Agent Evaluation",
-      "Tool Use Reliability",
-      "RAG / MCP / Sandbox",
-      "Object Detection Notes",
+      "LLM",
+      "Agent",
+      "RL",
     ],
   },
 };

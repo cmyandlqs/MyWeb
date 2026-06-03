@@ -9,12 +9,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "type-check": "tsc --noEmit",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.5",
+    "@astrojs/mdx": "^6.0.1",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.2",
+    "astro": "^6.4.3",
     "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }

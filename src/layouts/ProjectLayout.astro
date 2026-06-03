@@ -80,17 +80,17 @@ const copy = ui[lang];
             <div class="mt-8 flex flex-wrap gap-3">
               {repoUrl && (
                 <Button href={repoUrl} target="_blank" rel="noreferrer">
-                  GitHub
+                  {copy.labels.github}
                 </Button>
               )}
               {demoUrl && (
                 <Button href={demoUrl} target="_blank" rel="noreferrer" variant="secondary">
-                  Demo
+                  {copy.labels.demo}
                 </Button>
               )}
               {caseStudyUrl && (
                 <Button href={caseStudyUrl} target="_blank" rel="noreferrer" variant="secondary">
-                  Case Study
+                  {copy.labels.caseStudy}
                 </Button>
               )}
             </div>

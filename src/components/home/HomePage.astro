@@ -26,7 +26,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const copy = ui[lang];
-const moreLabel = lang === "zh-CN" ? "更多" : "More";
 const [latestProjects, latestBlog, latestLife] = await Promise.all([
   getLatestEntries("projects", lang, 4),
   getLatestBlogEntries(lang, 6),
@@ -84,7 +83,7 @@ const secondaryProjects = latestProjects.slice(1, 4);
 
             <div class="mt-3 border-t border-[rgba(216,202,186,0.4)] pt-2.5">
               <p class="text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--text-subtle)]">
-                Links
+                {copy.labels.links}
               </p>
               <div class="mt-2 flex flex-wrap gap-1.5">
                 <a
@@ -93,7 +92,7 @@ const secondaryProjects = latestProjects.slice(1, 4);
                   rel="noreferrer"
                   class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-2.5 py-1 text-xs font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
                 >
-                  GitHub
+                  {copy.labels.github}
                 </a>
                 <a
                   href={BILIBILI_URL}
@@ -101,7 +100,7 @@ const secondaryProjects = latestProjects.slice(1, 4);
                   rel="noreferrer"
                   class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.72)] bg-[rgba(255,253,248,0.9)] px-2.5 py-1 text-xs font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
                 >
-                  Bilibili
+                  {copy.labels.bilibili}
                 </a>
               </div>
             </div>
@@ -123,7 +122,7 @@ const secondaryProjects = latestProjects.slice(1, 4);
         href={getCollectionPath("writing", lang)}
         class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.78)] px-4 py-2 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
       >
-        {moreLabel}
+        {copy.labels.more}
       </a>
     </div>
 
@@ -169,7 +168,7 @@ const secondaryProjects = latestProjects.slice(1, 4);
           href={getCollectionPath("projects", lang)}
           class="inline-flex items-center rounded-full border border-[rgba(216,202,186,0.82)] bg-[rgba(255,253,248,0.78)] px-4 py-2 text-sm font-medium text-[var(--text-muted)] transition hover:border-[rgba(200,111,74,0.32)] hover:text-[var(--text-main)]"
         >
-          {moreLabel}
+          {copy.labels.more}
         </a>
       </div>
       <div class="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.35fr)] lg:items-stretch">
