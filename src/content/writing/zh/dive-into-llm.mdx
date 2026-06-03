@@ -1,0 +1,99 @@
+---
+title: "Dive into LLM"
+routeSlug: "dive-into-llm"
+summary: "本文介绍 LLM 的基础知识，包括推理过程、Transformer 结构、KV Cache、模型类型和 VRAM 计算等核心概念。"
+publishedAt: "2026-06-03"
+tags:
+  - LLM
+  - Transformer
+  - KV Cache
+  - AI Basics
+lang: "zh-CN"
+translationKey: "dive-into-llm"
+draft: false
+featured: false
+readTime: "8 min"
+---
+
+## 1. Inference（推理）
+
+LLM 推理的基本步骤：
+
+1. Convert your text into tokens.
+2. Feed those tokens into the model.
+3. Compute scores for every possible next token.
+4. Choose one token with a decoding policy.
+5. Append that token to the sequence.
+6. Repeat until the model stops, the user stops it, or a token limit is reached.
+
+## 2. 数学角度理解
+
+从数学角度看，the model is a learned function:
+
+```
+f(theta, sequence) -> probability distribution over next_token
+```
+
+- **theta**: 模型权重（model weights）
+- **sequence**: 提示词加上已生成的 tokens（prompt plus generated tokens so far）
+- **Logits**: softmax 之前的原始分数（raw scores before softmax）
+- **Probabilities**: softmax 之后的归一化分数（normalized scores after softmax）
+- **Decoding**: 将概率转换为选中的 token（turns probabilities into one selected token）
+
+## 3. Prefill 和 Decode
+
+### Prefill（预填充）
+
+大语言模型在**生成第一个输出 token 之前**，需要一次性处理你输入的整个提示词（prompt）的过程。
+
+- 一次性处理全部输入，不输出，可以并行计算，GPU 利用率高
+- The time you spend waiting for the first token to appear is usually prefill time.
+
+### Decode（解码）
+
+逐 token 生成输出，每步只算一个新 token，不能并行。
+
+**性能要点**：Long prompts punish prefill. Long answers punish decode. Long conversations punish both because the KV cache grows.
+
+## 4. 简化的 Transformer 层
+
+一个简化的 Transformer 层包含：
+
+1. **Token embeddings**: Token IDs become vectors.
+2. **Positional information**: The model needs token order. Many modern LLMs use RoPE (Rotary Position Embeddings), which encodes position by rotating representations.
+3. **Self-attention**: Each token representation looks back at prior token representations and decides what matters.
+4. **MLP / feed-forward block**: A dense nonlinear computation that expands and compresses representations. A large fraction of parameters live here.
+5. **Layer normalization and residual connections**: These stabilize deep networks and help information flow through many layers.
+6. **Output projection**: The final hidden state becomes logits over the vocabulary.
+
+## 5. KV Cache
+
+The KV cache is the model's working memory during generation. It stores key/value attention states for previous tokens so the model does not recompute the entire history from scratch on every generated token.
+
+## 6. 模型包包含内容
+
+A model package typically contains:
+
+1. **Architecture/config**: Layer count, hidden size, attention type, RoPE settings, vocabulary size, special tokens, and context length.
+2. **Weights**: The learned parameters, often stored as safetensors, GGUF, GPTQ, AWQ, EXL2, or another runtime-specific format.
+3. **Tokenizer**: The rules that turn text into token IDs and token IDs back into text.
+4. **Chat template**: The exact markup for system, user, assistant, tool, and reasoning messages.
+5. **Generation config**: Defaults for temperature, top-p, stop tokens, repetition penalties, and max tokens.
+
+## 7. 模型类型
+
+Types of models:
+
+1. **Base model**: Good for pretraining research, fine-tuning, and custom pipelines.
+2. **Instruct model**: Good for direct instruction following.
+3. **Chat model**: Good for multi-turn dialogue with role formatting.
+4. **Reasoning model**: Good when the task benefits from extra thinking tokens and verification.
+5. **Tool-tuned model**: Good when structured calls, JSON, or function use matters.
+
+## 8. 本地模型的 VRAM 计算
+
+VRAM Math For Local Models 主要包括：
+
+1. Model weights（模型权重）
+2. KV cache（KV 缓存）
+3. Runtime overhead（运行时开销）
